@@ -1,5 +1,8 @@
-# hush
+# Hush
 
+Description: 
+  #--Insert Description --# 
+  
 To start debugging: 
   1. go to where hush is in the file explorer, instead of the directory type "cmd", the command prompt should show up set in that directory
   2. install NPM

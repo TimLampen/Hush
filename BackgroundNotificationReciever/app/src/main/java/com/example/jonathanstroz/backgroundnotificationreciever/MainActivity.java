@@ -2,7 +2,6 @@ package com.example.jonathanstroz.backgroundnotificationreciever;
 
 import android.app.AlertDialog;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -16,9 +15,15 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.CustomAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.ListItem;
+
+import java.util.ArrayList;
 
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_2_ID;
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView interceptedNotificationImageView;
     private ImageChangeBroadcastReceiver imageChangeBroadcastReceiver;
     private AlertDialog enableNotificationListenerAlertDialog;
+    private ListView contentListView;
+    private ArrayList<ListItem> homeListItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(notifBroadcastReciever, filter);
-        setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.loading_screen);
 
 
         // If the user did not turn the notification listener service on we prompt him to do so
@@ -63,7 +71,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(imageChangeBroadcastReceiver);
+    }
 
+    public void changeView(View v){
+        setContentView(R.layout.main_screen);
+        contentListView = (ListView) this.findViewById(R.id.contentListView);
+
+        homeListItems = getList();
+        CustomAdapter adapter = new CustomAdapter(this, R.layout.custom_list_element_main, homeListItems);
+
+        contentListView.setAdapter(adapter);
+
+    }
+
+    public ArrayList<ListItem> getList(){
+        ArrayList<ListItem> listContent = new ArrayList<ListItem>(); // @TODO this will be calling the database function
+
+        ListItem item1 = new ListItem("Facebook", R.drawable.facebook_logo_extra_small);
+        ListItem item2 = new ListItem("Instagram", R.drawable.instagram_logo_extra_small);
+
+        listContent.add(item1);
+        listContent.add(item2);
+        return listContent;
     }
 
     /**

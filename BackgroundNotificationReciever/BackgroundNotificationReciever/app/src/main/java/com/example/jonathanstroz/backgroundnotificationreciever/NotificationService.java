@@ -1,21 +1,17 @@
 package com.example.jonathanstroz.backgroundnotificationreciever;
 
 import android.app.Notification;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import static android.app.Notification.Builder.recoverBuilder;
-import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
 import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.mDatabaseHelper;
 import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.notificationManager;
 
 public class NotificationService extends NotificationListenerService {
-    private static int SUMMARY_ID = 1000000;
+
     @Override
     public IBinder onBind(Intent intent) {
         return super.onBind(intent);
@@ -25,9 +21,6 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn){
         String channel = sbn.getNotification().getChannelId();
         HushNotification notif = new HushNotification(sbn);
-        if(notif.getRow() % 100 == 0){
-            //call train algorithms
-        }
         if (notif.getNotifcationCode() != 5) {
             sendNotifcation(notif);
         }
@@ -69,20 +62,7 @@ public class NotificationService extends NotificationListenerService {
         }else if (notif.getPriority() == 4){
             notification.priority = Notification.PRIORITY_LOW;
             //Save into notification bucket
-            Notification notificationBuild = recoverBuilder(this, notification)
-                    .setGroup("Notification_Bucket")
-                    .build();
-
-            Notification summaryNotification = new NotificationCompat.Builder(this,CHANNEL_1_ID)
-                    .setSmallIcon(R.drawable.ic_announcement_black_24dp)
-                    .setContentTitle("Notification Bucket")
-                    .setContentText("Notification Bucket")
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setGroupSummary(true)
-                    .build();
-
-            notificationManager.notify(notif.getId(),notificationBuild);
-            notificationManager.notify(SUMMARY_ID,summaryNotification);
+            notificationManager.notify(notif.getId(),notification);
         }
     }
 }

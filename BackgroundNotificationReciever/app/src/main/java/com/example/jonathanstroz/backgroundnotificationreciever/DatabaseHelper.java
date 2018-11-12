@@ -82,4 +82,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return "";
         }
     }
+
+    public static int getRowCount(){
+        //SELECT Count(*) FROM tblName
+        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
 }

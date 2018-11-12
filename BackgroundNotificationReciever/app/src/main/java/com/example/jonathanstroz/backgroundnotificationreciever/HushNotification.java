@@ -3,6 +3,7 @@ import android.app.Notification;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 
+import static com.example.jonathanstroz.backgroundnotificationreciever.DatabaseHelper.getRowCount;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
 import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.notificationManager;
 
@@ -18,7 +19,7 @@ public class HushNotification {
     private StatusBarNotification status_notif;
     private int cancelReason = 0;
     private int code = 0;
-
+    private int rows = 0;
     //Constructor
     public HushNotification(StatusBarNotification sbn){
         status_notif = sbn;
@@ -31,6 +32,7 @@ public class HushNotification {
         priority = setPriority(notification);
         id = sbn.getId();
         code = getAppCode(source);
+        rows = getRowCount();
     }
 
     private static final class ApplicationPackageNames {
@@ -78,6 +80,9 @@ public class HushNotification {
         return priority;
     }
 
+    public int getRow(){
+        return rows;
+    }
     private int setPriority(Notification notification){
         //Get Priorities | 60%
         //Get ML Algorithm | 40%
@@ -86,7 +91,7 @@ public class HushNotification {
         // 3 = low
         // 4 = bucket
         // 5 = ignore
-        return 1;
+        return 4;
     }
 
     public long getTime(){

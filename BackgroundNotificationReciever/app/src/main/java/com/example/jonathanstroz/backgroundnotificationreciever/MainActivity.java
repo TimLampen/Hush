@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<ListItem> getList(){
         ArrayList<ListItem> listContent = new ArrayList<ListItem>(); // @TODO this will be calling the database function
 
-        ListItem item1 = new ListItem("Facebook", R.drawable.facebook_logo_extra_small);
-        ListItem item2 = new ListItem("Instagram", R.drawable.instagram_logo_extra_small);
+        ListItem item1 = new ListItem("Facebook", R.drawable.facebook_logo_small);
+        ListItem item2 = new ListItem("Instagram", R.drawable.instagram_logo_small);
 
         listContent.add(item1);
         listContent.add(item2);

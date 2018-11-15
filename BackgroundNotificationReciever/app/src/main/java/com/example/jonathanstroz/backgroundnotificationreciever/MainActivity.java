@@ -15,18 +15,23 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ListView;
 
-import static com.example.jonathanstroz.backgroundnotificationreciever.DatabaseHelper.getDb;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.CustomAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.ListItem;
+
+import java.util.ArrayList;
+
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
-
+import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_2_ID;
 
 public class MainActivity extends AppCompatActivity {
-    public static NotificationManagerCompat notificationManager;
+    private NotificationManagerCompat notificationManager;
 
-    public static DatabaseHelper mDatabaseHelper;
+    NotifBroadcastReciever notifBroadcastReciever = new NotifBroadcastReciever();
 
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
     private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView interceptedNotificationImageView;
     private ImageChangeBroadcastReceiver imageChangeBroadcastReceiver;
     private AlertDialog enableNotificationListenerAlertDialog;
+    private ListView contentListView;
+    private ArrayList<ListItem> homeListItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
         notificationManager = NotificationManagerCompat.from(this);
 
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        setContentView(R.layout.activity_main);
+        registerReceiver(notifBroadcastReciever, filter);
+
+        setContentView(R.layout.loading_screen);
+
 
         // If the user did not turn the notification listener service on we prompt him to do so
         if(!isNotificationServiceEnabled()){
@@ -51,25 +61,39 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Finally we register a receiver to tell the MainActivity when a notification has been received
-        //SQLite
-        mDatabaseHelper = new DatabaseHelper(this);
-        //call read db and put in text view
-        updateView();
-
+        imageChangeBroadcastReceiver = new ImageChangeBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.github.chagall.notificationlistenerexample");
+        registerReceiver(imageChangeBroadcastReceiver,intentFilter);
     }
 
-    public void updateView(){
-        TextView textView = findViewById(R.id.sql_textView);
-        String test = getDb();
-        textView.setText(test);
-    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(imageChangeBroadcastReceiver);
+    }
+
+    public void changeView(View v){
+        setContentView(R.layout.main_screen);
+        contentListView = (ListView) this.findViewById(R.id.contentListView);
+
+        homeListItems = getList();
+        CustomAdapter adapter = new CustomAdapter(this, R.layout.custom_list_element_main, homeListItems);
+
+        contentListView.setAdapter(adapter);
 
     }
 
+    public ArrayList<ListItem> getList(){
+        ArrayList<ListItem> listContent = new ArrayList<ListItem>(); // @TODO this will be calling the database function
+
+        ListItem item1 = new ListItem("Facebook", R.drawable.facebook_logo_small);
+        ListItem item2 = new ListItem("Instagram", R.drawable.instagram_logo_small);
+
+        listContent.add(item1);
+        listContent.add(item2);
+        return listContent;
+    }
 
     /**
      * Change Intercepted Notification Image
@@ -79,16 +103,16 @@ public class MainActivity extends AppCompatActivity {
     private void changeInterceptedNotificationImage(int notificationCode){
 
         switch(notificationCode){
-            case HushNotification.InterceptedNotificationCode.FACEBOOK_CODE:
+            case NotificationService.InterceptedNotificationCode.FACEBOOK_CODE:
                 interceptedNotificationImageView.setImageResource(R.drawable.facebook_logo);
                 break;
-            case HushNotification.InterceptedNotificationCode.INSTAGRAM_CODE:
+            case NotificationService.InterceptedNotificationCode.INSTAGRAM_CODE:
                 interceptedNotificationImageView.setImageResource(R.drawable.instagram_logo);
                 break;
-            case HushNotification.InterceptedNotificationCode.WHATSAPP_CODE:
+            case NotificationService.InterceptedNotificationCode.WHATSAPP_CODE:
                 interceptedNotificationImageView.setImageResource(R.drawable.whatsapp_logo);
                 break;
-            case HushNotification.InterceptedNotificationCode.OTHER_NOTIFICATIONS_CODE:
+            case NotificationService.InterceptedNotificationCode.OTHER_NOTIFICATIONS_CODE:
                 interceptedNotificationImageView.setImageResource(R.drawable.other_notification_logo);
                 break;
         }
@@ -161,10 +185,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void sendOnHigh(View v){
+    public void sendOnChannel1(View v){
         //Set up notification bucket
-        String title = "Messanger Test";
-        String message = "Message From Hush";
+        String title = "Example Notification";
+        String message = "Example Message";
         Notification notification = new NotificationCompat.Builder(this,CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_announcement_black_24dp)
                 .setContentTitle(title)
@@ -174,5 +198,32 @@ public class MainActivity extends AppCompatActivity {
 
         notificationManager.notify(1,notification);
     }
+
+    public void sendOnChannel2(View v){
+        String title1 = "Title 1";
+        String message1 = "Message 1";
+
+        Notification notification1 = new NotificationCompat.Builder(MainActivity.this, CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.ic_announcement_black_24dp)
+                .setContentTitle(title1)
+                .setContentText(message1)
+                .setGroup("example_group")
+                .build();
+
+        Notification summaryNotification = new NotificationCompat.Builder(MainActivity.this, CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.ic_announcement_black_24dp)
+                .setStyle(new NotificationCompat.InboxStyle()
+                        //.addLine(title1 + " " + message1)
+                        .setBigContentTitle("Notification Bucket"))
+                .setGroup("example_group")
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setGroupSummary(true)
+                .build();
+
+        int id1 = (int) System.currentTimeMillis();
+        notificationManager.notify(id1 ,notification1);
+        notificationManager.notify(1000, summaryNotification);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.jonathanstroz.backgroundnotificationreciever;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import static android.app.Notification.Builder.recoverBuilder;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
 import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.mDatabaseHelper;
 import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.notificationManager;
+
 
 public class NotificationService extends NotificationListenerService {
     private static int SUMMARY_ID = 1000000;

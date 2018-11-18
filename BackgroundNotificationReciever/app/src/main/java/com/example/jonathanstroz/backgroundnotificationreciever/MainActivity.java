@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import static com.example.jonathanstroz.backgroundnotificationreciever.DatabaseHelper.getDb;
+
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.CustomAdapter;
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.ListItem;
 

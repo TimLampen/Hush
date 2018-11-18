@@ -38,6 +38,7 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn,NotificationListenerService.RankingMap rankingMap, int reason){
         //https://developer.android.com/reference/android/service/notification/NotificationListenerService.html#REASON_LISTENER_CANCEL
+        Log.e("CHECK","We reached here");
         HushNotification notif = new HushNotification(sbn);
         notif.setCancelReason(reason);
 

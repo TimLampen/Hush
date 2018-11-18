@@ -55,7 +55,11 @@ public class CustomAdapter extends ArrayAdapter<ListItem> {
         if(view.getTag() == null){
             view = inflater.inflate(R.layout.custom_list_element_main,null);
             holder = new ViewHolder((ImageView) view.findViewById(R.id.listAppIcon),(TextView) view.findViewById(R.id.listAppName));
-
+            ViewGroup.LayoutParams params = view.getLayoutParams();
+            if(params == null){
+                params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
+            }
+            view.setLayoutParams(params);
             view.setTag(holder);
         }
         else{

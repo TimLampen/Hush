@@ -17,6 +17,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -29,9 +31,11 @@ import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHAN
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_2_ID;
 
 public class MainActivity extends AppCompatActivity {
-    private NotificationManagerCompat notificationManager;
+    public static NotificationManagerCompat notificationManager;
 
     NotifBroadcastReciever notifBroadcastReciever = new NotifBroadcastReciever();
+
+    public static DatabaseHelper mDatabaseHelper;
 
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
     private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
@@ -41,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog enableNotificationListenerAlertDialog;
     private ListView contentListView;
     private ArrayList<ListItem> homeListItems;
+    private Button loadingScreenButton;
+    private View.OnClickListener appSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,19 @@ public class MainActivity extends AppCompatActivity {
             enableNotificationListenerAlertDialog.show();
         }
 
+        mDatabaseHelper = new DatabaseHelper(this);
+
+        // check Database for app initiated flag
+
+        loadingScreenButton = (Button) findViewById(R.id.getStartedBtn);
+
+        loadingScreenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadApp(v);
+            }
+        });
+
         // Finally we register a receiver to tell the MainActivity when a notification has been received
         imageChangeBroadcastReceiver = new ImageChangeBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -73,9 +92,29 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(imageChangeBroadcastReceiver);
     }
 
-    public void changeView(View v){
+    public void loadApp(View v){
+
+        loadingScreenButton = null;
+        // @TODO load data from sql Database
+
         setContentView(R.layout.main_screen);
+
         contentListView = (ListView) this.findViewById(R.id.contentListView);
+
+        contentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+        });
+
+        contentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
+            }
+        });
 
         homeListItems = getList();
         CustomAdapter adapter = new CustomAdapter(this, R.layout.custom_list_element_main, homeListItems);
@@ -101,18 +140,18 @@ public class MainActivity extends AppCompatActivity {
      * @param notificationCode The intercepted notification code
      */
     private void changeInterceptedNotificationImage(int notificationCode){
-
+        //@TODO uncomment
         switch(notificationCode){
-            case NotificationService.InterceptedNotificationCode.FACEBOOK_CODE:
+            case HushNotification.InterceptedNotificationCode.FACEBOOK_CODE:
                 interceptedNotificationImageView.setImageResource(R.drawable.facebook_logo);
                 break;
-            case NotificationService.InterceptedNotificationCode.INSTAGRAM_CODE:
+            case HushNotification.InterceptedNotificationCode.INSTAGRAM_CODE:
                 interceptedNotificationImageView.setImageResource(R.drawable.instagram_logo);
                 break;
-            case NotificationService.InterceptedNotificationCode.WHATSAPP_CODE:
+            case HushNotification.InterceptedNotificationCode.WHATSAPP_CODE:
                 interceptedNotificationImageView.setImageResource(R.drawable.whatsapp_logo);
                 break;
-            case NotificationService.InterceptedNotificationCode.OTHER_NOTIFICATIONS_CODE:
+            case HushNotification.InterceptedNotificationCode.OTHER_NOTIFICATIONS_CODE:
                 interceptedNotificationImageView.setImageResource(R.drawable.other_notification_logo);
                 break;
         }

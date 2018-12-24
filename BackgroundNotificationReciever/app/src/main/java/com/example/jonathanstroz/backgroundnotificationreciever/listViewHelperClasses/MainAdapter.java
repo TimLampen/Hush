@@ -51,10 +51,11 @@ public class CustomAdapter extends ArrayAdapter<ListItem> {
 
         View view = convertView;
         ViewHolder holder;
+        ListItem item = listItems.get(position);
 
         if(view.getTag() == null){
             view = inflater.inflate(R.layout.custom_list_element_main,null);
-            holder = new ViewHolder((ImageView) view.findViewById(R.id.listAppIcon),(TextView) view.findViewById(R.id.listAppName));
+            holder = new ViewHolder((ImageView) view.findViewById(R.id.listAppIcon),(TextView) view.findViewById(R.id.listAppName), 0, item);
             ViewGroup.LayoutParams params = view.getLayoutParams();
             if(params == null){
                 params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
@@ -66,7 +67,7 @@ public class CustomAdapter extends ArrayAdapter<ListItem> {
             holder = (ViewHolder) view.getTag();
         }
 
-        ListItem item = listItems.get(position);
+
         Log.e("CHECK",listItems.get(position).getName()+"");
         holder.setDataIntoViewHolder(item);
 

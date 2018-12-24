@@ -3,13 +3,13 @@ package com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperC
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ViewHolder {
+public class MainViewHolder {
     private ImageView appIcon;
     private TextView appName;
     private int appId;
     private MainListItem appDetails;
 
-    public ViewHolder(ImageView icon, TextView name, int id, MainListItem item){
+    public MainViewHolder(ImageView icon, TextView name, int id, MainListItem item){
         //Bitmap b = BitmapFactory.decodeResource();
         appName = name;
         appIcon = icon;

@@ -8,9 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class AppDetails extends AppCompatActivity {
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.ListIterator;
+
+public class AppDetailsActivity extends AppCompatActivity {
 
     private int appLogo;
     private String appName;
@@ -18,6 +27,9 @@ public class AppDetails extends AppCompatActivity {
 
     private TextView nameView;
     private ImageView logoView;
+
+    private ListView featureListView;
+    private ArrayList<FeatureListItem> features;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,5 +50,27 @@ public class AppDetails extends AppCompatActivity {
         logoView.setImageResource(appLogo);
         nameView.setText(appName);
 
+        loadFeatures();
     }
+
+    private void loadFeatures(){
+
+        featureListView = (ListView)findViewById(R.id.featureView);
+
+        // @TODO encorporate sql loading
+        features = getList();
+
+        FeatureAdapter adapter = new FeatureAdapter(this, R.layout.custom_list_element_features, features);
+        featureListView.setAdapter(adapter);
+    }
+
+    public ArrayList<FeatureListItem> getList(){
+        ArrayList<FeatureListItem> list = new ArrayList<FeatureListItem>();
+        list.add(new FeatureListItem(10,"Event"));
+        list.add(new FeatureListItem(60,"Birthday"));
+        list.add(new FeatureListItem(70,"Message"));
+        list.add(new FeatureListItem(90,"Post"));
+        return list;
+    }
+
 }

@@ -15,17 +15,15 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import static com.example.jonathanstroz.backgroundnotificationreciever.DatabaseHelper.getDb;
-
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.CustomAdapter;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.ListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainViewHolder;
 
 import java.util.ArrayList;
 
@@ -41,12 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
     private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
+    public static final String APPID = "com.example.jonathanstroz.backgroundnotificationreciever.appId";
+    public static final String APPNAME = "com.example.jonathanstroz.backgroundnotificationreciever.appName";
+    public static final String APPIMAGE = "com.example.jonathanstroz.backgroundnotificationreciever.appImage";
+
+
+
 
     private ImageView interceptedNotificationImageView;
     private ImageChangeBroadcastReceiver imageChangeBroadcastReceiver;
     private AlertDialog enableNotificationListenerAlertDialog;
     private ListView contentListView;
-    private ArrayList<ListItem> homeListItems;
+    private ArrayList<MainListItem> homeMainListItems;
     private Button loadingScreenButton;
     private View.OnClickListener appSelector;
 
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
         loadingScreenButton = null;
         // @TODO load data from sql Database
-
+        homeMainListItems = getList();
         setContentView(R.layout.main_screen);
 
         contentListView = (ListView) this.findViewById(R.id.contentListView);
@@ -106,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         contentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                appSelected(view,position,id);
             }
 
         });
@@ -118,18 +122,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        homeListItems = getList();
-        CustomAdapter adapter = new CustomAdapter(this, R.layout.custom_list_element_main, homeListItems);
+
+        MainAdapter adapter = new MainAdapter(this, R.layout.custom_list_element_main, homeMainListItems);
 
         contentListView.setAdapter(adapter);
 
     }
 
-    public ArrayList<ListItem> getList(){
-        ArrayList<ListItem> listContent = new ArrayList<ListItem>(); // @TODO this will be calling the database function
+    public void appSelected(View v, int pos, long id){
+        Intent i = new Intent(this, AppDetailsActivity.class);
+        MainViewHolder holder = (MainViewHolder) v.getTag();
+        i.putExtra(APPID,holder.getAppId());
+        i.putExtra(APPNAME,holder.getAppName());
+        i.putExtra(APPIMAGE,holder.getAppImage());
+        startActivity(i);
+    }
 
-        ListItem item1 = new ListItem("Facebook", R.drawable.facebook_logo_small);
-        ListItem item2 = new ListItem("Instagram", R.drawable.instagram_logo_small);
+    public ArrayList<MainListItem> getList(){
+        ArrayList<MainListItem> listContent = new ArrayList<MainListItem>(); // @TODO this will be calling the database function
+
+        MainListItem item1 = new MainListItem("Facebook", R.drawable.facebook_logo_small, HushNotification.InterceptedNotificationCode.FACEBOOK_CODE);
+        MainListItem item2 = new MainListItem("Instagram", R.drawable.instagram_logo_small, HushNotification.InterceptedNotificationCode.INSTAGRAM_CODE);
 
         listContent.add(item1);
         listContent.add(item2);

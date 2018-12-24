@@ -1,12 +1,12 @@
 package com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses;
 
-public class ListItem {
+public class MainListItem {
 
     private String itemName;
     private int itemImage;
     private int itemAppId;
 
-    public ListItem(String name, int imageId, int appId){
+    public MainListItem(String name, int imageId, int appId){
         itemName = name;
         itemImage = imageId;
         itemAppId = appId;
@@ -25,8 +25,8 @@ public class ListItem {
         return itemAppId;
     }
 
-    public ListItem clone(){
-        return new ListItem(this.itemName, this.itemImage, this.itemAppId);
+    public MainListItem clone(){
+        return new MainListItem(this.itemName, this.itemImage, this.itemAppId);
     }
 
 }

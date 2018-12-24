@@ -1,13 +1,10 @@
 package com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -17,21 +14,21 @@ import com.example.jonathanstroz.backgroundnotificationreciever.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter extends ArrayAdapter<ListItem> {
+public class MainAdapter extends ArrayAdapter<MainListItem> {
 
-    private List<ListItem> listItems;
+    private List<MainListItem> mainListItems;
     private LayoutInflater inflater;
 
-    public CustomAdapter(Context context, int resource, List<ListItem> objects) {
+    public MainAdapter(Context context, int resource, List<MainListItem> objects) {
         super(context, resource, objects);
-        listItems = objects;
+        mainListItems = objects;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
     @Override
     public int getCount() {
-        return listItems.size();
+        return mainListItems.size();
     }
 
     /*
@@ -50,12 +47,11 @@ public class CustomAdapter extends ArrayAdapter<ListItem> {
         convertView = inflater.inflate(R.layout.custom_list_element_main,null);
 
         View view = convertView;
-        ViewHolder holder;
-        ListItem item = listItems.get(position);
+        MainViewHolder holder;
+        MainListItem item = mainListItems.get(position);
 
         if(view.getTag() == null){
-            view = inflater.inflate(R.layout.custom_list_element_main,null);
-            holder = new ViewHolder((ImageView) view.findViewById(R.id.listAppIcon),(TextView) view.findViewById(R.id.listAppName), 0, item);
+            holder = new MainViewHolder((ImageView) view.findViewById(R.id.listAppIcon),(TextView) view.findViewById(R.id.listAppName), 0, item);
             ViewGroup.LayoutParams params = view.getLayoutParams();
             if(params == null){
                 params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
@@ -64,23 +60,23 @@ public class CustomAdapter extends ArrayAdapter<ListItem> {
             view.setTag(holder);
         }
         else{
-            holder = (ViewHolder) view.getTag();
+            holder = (MainViewHolder) view.getTag();
         }
 
 
-        Log.e("CHECK",listItems.get(position).getName()+"");
+        Log.e("CHECK", mainListItems.get(position).getName()+"");
         holder.setDataIntoViewHolder(item);
 
 
         return view;
     }
 
-    private ArrayList<ListItem> clone(ArrayList<ListItem> items){
-        ArrayList<ListItem> temp = new ArrayList<ListItem>();
+    private ArrayList<MainListItem> clone(ArrayList<MainListItem> items){
+        ArrayList<MainListItem> temp = new ArrayList<MainListItem>();
 
 
 
-        for(ListItem i: items){
+        for(MainListItem i: items){
             temp.add(i.clone());
         }
 

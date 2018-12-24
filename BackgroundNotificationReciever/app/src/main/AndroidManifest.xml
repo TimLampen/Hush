@@ -34,7 +34,7 @@
 
         <receiver android:name=".MainActivity$ImageChangeBroadcastReceiver" />
 
-        <activity android:name=".AppDetails"></activity>
+        <activity android:name=".AppDetailsActivity"></activity>
     </application>
 
 </manifest>

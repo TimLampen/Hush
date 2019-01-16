@@ -1,11 +1,8 @@
 package com.example.jonathanstroz.backgroundnotificationreciever;
 import android.app.Notification;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.app.NotificationCompat;
 
-import static com.example.jonathanstroz.backgroundnotificationreciever.DatabaseHelper.getRowCount;
-import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.notificationManager;
+import static com.example.jonathanstroz.backgroundnotificationreciever.Database.DatabaseHelper.getRowCount;
 
 public class HushNotification {
     private Notification notification = new Notification();

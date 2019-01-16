@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,9 +32,10 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".MainActivity$ImageChangeBroadcastReceiver" />
+        <receiver android:name=".Activities.MainActivity$ImageChangeBroadcastReceiver" />
 
-        <activity android:name=".AppDetailsActivity"></activity>
+        <activity android:name=".Activities.AppDetailsActivity"></activity>
+        <activity android:name=".Activities.SetupActivity"></activity>
     </application>
 
 </manifest>

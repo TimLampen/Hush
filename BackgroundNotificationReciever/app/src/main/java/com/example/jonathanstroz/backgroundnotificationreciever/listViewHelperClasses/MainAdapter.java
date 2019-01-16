@@ -43,6 +43,7 @@ public class MainAdapter extends ArrayAdapter<MainListItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Log.e("XXXX", position+"");
         // @TODO view
         convertView = inflater.inflate(R.layout.custom_list_element_main,null);
 

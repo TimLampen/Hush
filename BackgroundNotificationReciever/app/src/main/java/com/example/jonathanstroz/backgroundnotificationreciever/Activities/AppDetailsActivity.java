@@ -1,23 +1,18 @@
-package com.example.jonathanstroz.backgroundnotificationreciever;
+package com.example.jonathanstroz.backgroundnotificationreciever.Activities;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity;
+import com.example.jonathanstroz.backgroundnotificationreciever.R;
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureAdapter;
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.ListIterator;
 
 public class AppDetailsActivity extends AppCompatActivity {
 
@@ -73,4 +68,7 @@ public class AppDetailsActivity extends AppCompatActivity {
         return list;
     }
 
+    public void updateFeature(){
+
+    }
 }

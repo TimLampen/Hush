@@ -1,8 +1,6 @@
 package com.example.jonathanstroz.backgroundnotificationreciever;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
@@ -12,8 +10,8 @@ import android.util.Log;
 
 import static android.app.Notification.Builder.recoverBuilder;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.mDatabaseHelper;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.notificationManager;
+import static com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity.mDatabaseHelper;
+import static com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity.notificationManager;
 
 
 public class NotificationService extends NotificationListenerService {

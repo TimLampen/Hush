@@ -2,6 +2,8 @@ package com.example.jonathanstroz.backgroundnotificationreciever;
 
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -53,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         notificationManager = NotificationManagerCompat.from(this);
-
+        //NotificationChannel mChannel = new NotificationChannel("SENDHIGH", "HUSH_SEND_ON_HIGH", NotificationManager.IMPORTANCE_HIGH );
+        //NotificationManager.createNotificationChannel(mChannel);
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(notifBroadcastReciever, filter);
 
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(imageChangeBroadcastReceiver);
+        unregisterReceiver(notifBroadcastReciever);
     }
 
     public void loadApp(View v){

@@ -2,8 +2,11 @@ package com.example.jonathanstroz.backgroundnotificationreciever;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
@@ -27,11 +30,13 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn){
         String channel = sbn.getNotification().getChannelId();
         HushNotification notif = new HushNotification(sbn);
-        if(notif.getRow() % 100 == 0){
-            //call train algorithms
-        }
+
+        cancelNotification(sbn.getKey());
+        notificationManager.cancel(sbn.getId());
+
+
         if (notif.getNotifcationCode() != 5) {
-            sendNotifcation(notif);
+            sendNotifcation(notif, sbn);
         }
     }
 
@@ -58,11 +63,24 @@ public class NotificationService extends NotificationListenerService {
         Log.d(" **** Inserted: ", Long.toString(insertData));
     }
 
-    private void sendNotifcation(HushNotification notif){
+    public static void cancelNotification(Context ctx, int notifyId) {
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
+        nMgr.cancel(notifyId);
+    }
+
+    private void sendNotifcation(HushNotification notif, StatusBarNotification sbn){
         Notification notification = notif.getNotification();
-        if (notif.getPriority() == 1){
+        if (notif.getPriority() == 4){
             notification.priority = Notification.PRIORITY_HIGH;
-            notificationManager.notify(notif.getId(),notification);
+
+            //create notification channel
+            Notification notificationBuild = recoverBuilder(this, notification)
+                    .setGroup("Notification_Bucket")
+                    .setChannelId("")
+                    .build();
+
+            notificationManager.notify(sbn.getId(), notificationBuild);
         }else if (notif.getPriority() == 2){
             notification.priority = Notification.PRIORITY_DEFAULT;
             notificationManager.notify(notif.getId(),notification);

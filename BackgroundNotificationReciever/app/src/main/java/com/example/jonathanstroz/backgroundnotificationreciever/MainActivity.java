@@ -33,7 +33,7 @@ import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHAN
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_2_ID;
 
 public class MainActivity extends AppCompatActivity {
-    public static NotificationManagerCompat notificationManager;
+    public NotificationManagerCompat notificationManager;
 
     NotifBroadcastReciever notifBroadcastReciever = new NotifBroadcastReciever();
 
@@ -55,11 +55,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         notificationManager = NotificationManagerCompat.from(this);
-        //NotificationChannel mChannel = new NotificationChannel("SENDHIGH", "HUSH_SEND_ON_HIGH", NotificationManager.IMPORTANCE_HIGH );
-        //NotificationManager.createNotificationChannel(mChannel);
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(notifBroadcastReciever, filter);
-
+        setChannels();
         setContentView(R.layout.loading_screen);
 
 
@@ -72,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         mDatabaseHelper = new DatabaseHelper(this);
 
         // check Database for app initiated flag
-
         loadingScreenButton = (Button) findViewById(R.id.getStartedBtn);
 
         loadingScreenButton.setOnClickListener(new View.OnClickListener() {
@@ -268,5 +265,16 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(1000, summaryNotification);
     }
 
+    public void setChannels(){
+        //create notification channels
+        NotificationChannel highChannel = new NotificationChannel("SENDHIGH", "HUSH_SEND_ON_HIGH", NotificationManager.IMPORTANCE_HIGH );
+        NotificationManager.createNotificationChannel(highChannel);
+
+        NotificationChannel defChannel = new NotificationChannel("SENDMEDIUM", "HUSH_SEND_ON_HIGH", NotificationManager.IMPORTANCE_DEFAULT );
+        NotificationManager.createNotificationChannel(defChannel);
+
+        NotificationChannel lowChannel = new NotificationChannel("SENDLOW", "HUSH_SEND_ON_HIGH", NotificationManager.IMPORTANCE_MIN );
+        NotificationManager.createNotificationChannel(lowChannel);
+    }
 
 }

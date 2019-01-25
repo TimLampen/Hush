@@ -5,7 +5,6 @@ import android.support.v4.app.NotificationCompat;
 
 import static com.example.jonathanstroz.backgroundnotificationreciever.DatabaseHelper.getRowCount;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.notificationManager;
 
 public class HushNotification {
     private Notification notification = new Notification();

@@ -12,17 +12,18 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.app.NotificationChannel;
 
 import static android.app.Notification.Builder.recoverBuilder;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
 import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.mDatabaseHelper;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.notificationManager;
-
 
 public class NotificationService extends NotificationListenerService {
     private static int SUMMARY_ID = 1000000;
+    public NotificationManager notificationManager;
     @Override
     public IBinder onBind(Intent intent) {
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         return super.onBind(intent);
     }
 
@@ -30,7 +31,6 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn){
         String channel = sbn.getNotification().getChannelId();
         HushNotification notif = new HushNotification(sbn);
-
         cancelNotification(sbn.getKey());
         notificationManager.cancel(sbn.getId());
 
@@ -73,10 +73,8 @@ public class NotificationService extends NotificationListenerService {
         Notification notification = notif.getNotification();
         if (notif.getPriority() == 4){
             notification.priority = Notification.PRIORITY_HIGH;
-
-            //create notification channel
             Notification notificationBuild = recoverBuilder(this, notification)
-                    .setGroup("Notification_Bucket")
+                    .setGroup("SENDHIGH")
                     .setChannelId("")
                     .build();
 

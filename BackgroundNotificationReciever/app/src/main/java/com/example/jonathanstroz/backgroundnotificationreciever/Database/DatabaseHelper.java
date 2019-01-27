@@ -3,12 +3,15 @@ package com.example.jonathanstroz.backgroundnotificationreciever.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Facebook;
+import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Instagram;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
 
 import java.util.ArrayList;
 
@@ -57,18 +60,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //@TODO Add more user tables
 
-    private static final String CREATE_TABLE_NOTIFICATION = "CREATE TABLE " + TABLE_NOTIFICATION + " ("
+    private static final String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ("
             + KEY_SRC + " TEXT NOT NULL, "
             + KEY_TITLE + " TEXT NOT NULL, "
             + KEY_MSG + " TEXT NOT NULL, "
             + KEY_TIME + " TEXT NOT NULL, "
             + KEY_DISMISS + " TEXT);";
 
-    private static final String CREATE_TABLE_USERDATA = "CREATE TABLE " + TABLE_USERINFO + " ("
+    private static final String CREATE_TABLE_USERDATA = "CREATE TABLE IF NOT EXISTS " + TABLE_USERINFO + " ("
             + KEY_INIT + " INTEGER NOT NULL, "
             + KEY_DEVICEID + " INTEGER NOT NULL);";
 
-    private static final String CREATE_TABLE_APPLICATIONS = "CREATE TABLE " + TABLE_APPLICATIONS + " ("
+    private static final String CREATE_TABLE_APPLICATIONS = "CREATE TABLE IF NOT EXISTS " + TABLE_APPLICATIONS + " ("
             + KEY_ID + " INTEGER, "
             + KEY_NAME + " TEXT NOT NULL, "
             + KEY_ACTIVATED + " INTEGER); ";
@@ -98,24 +101,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_USERDATA);
-        db.execSQL(CREATE_TABLE_NOTIFICATION);
-        db.execSQL(CREATE_TABLE_APPLICATIONS);
+            db.execSQL(CREATE_TABLE_USERDATA);
+            db.execSQL(CREATE_TABLE_NOTIFICATION);
+            db.execSQL(CREATE_TABLE_APPLICATIONS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE EXISTS " + TABLE_NOTIFICATION);
-        db.execSQL("DROP TABLE EXISTS " + TABLE_APPLICATIONS);
-        db.execSQL("DROP TABLE EXISTS " + TABLE_USERINFO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_APPLICATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERINFO);
         onCreate(db);
     }
 
     public void reset(){
         SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-        db.execSQL("DROP TABLE " + TABLE_NOTIFICATION);
-        db.execSQL("DROP TABLE " + TABLE_APPLICATIONS);
-        db.execSQL("DROP TABLE " + TABLE_USERINFO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_APPLICATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERINFO);
     }
 
     public long addData(String source, String title, String message, Long time, String reason){
@@ -134,7 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean isInitialized(){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        if(db == null || checkIfTableCreated(TABLE_USERINFO)){
+        if(db == null || !checkIfTableCreated(TABLE_USERINFO)){
             return false;
         }
         else{
@@ -157,18 +160,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void initializeApplicationTable(){
+        SQLiteDatabase dbWrite = mDatabaseHelper.getWritableDatabase();
+
         if(!checkIfTableCreated(TABLE_APPLICATIONS)) {
-            SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+            dbWrite.execSQL(CREATE_TABLE_APPLICATIONS);
+        }
+        SQLiteDatabase dbRead = mDatabaseHelper.getReadableDatabase();
+        Cursor c = dbRead.rawQuery("SELECT * FROM "+TABLE_APPLICATIONS,null);
+        if(!c.moveToFirst()) {
             ContentValues values = new ContentValues();
 
             for (int i = 0; i < NUMBER_OF_APPLICATIONS; i++) {
                 values.put(KEY_ID, i);
                 values.put(KEY_NAME, APPLICATION_NAMES[i]);
                 values.put(KEY_ACTIVATED, 0);
-                db.insert(TABLE_APPLICATIONS, null, values);
+                dbWrite.insert(TABLE_APPLICATIONS, null, values);
             }
-            db.close();
+            dbRead.close();
+            dbWrite.close();
         }
+
     }
 
     public static String getDb(){
@@ -199,6 +210,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public ArrayList<Integer> getActivatedAppIds(){
+        ArrayList<Integer> apps = new ArrayList<Integer>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = db.rawQuery(GET_ACTIVE_APPLICATIONS, null);
+
+        if(c.moveToFirst()){
+            int idIndex = c.getColumnIndex(KEY_ID);
+            do{
+                int appID = c.getInt(idIndex);
+                apps.add(appID);
+            }while(c.moveToNext());
+        }
+
+        c.close();
+        db.close();
+
+        return apps;
     }
 
     public ArrayList<MainListItem> getActiveApps(){
@@ -245,10 +277,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         for(int i=0;i<appsToAdd.size() - 1; i++){
             query += KEY_ID + " = " + appsToAdd.get(i) + " OR ";
+            initializeTable(appsToAdd.get(i));
         }
 
         query += KEY_ID + " = " + appsToAdd.get(appsToAdd.size() - 1) + ";";
-        Log.e("XXXX", query);
+
+    }
+
+    private void initializeTable(int id){
+        switch(id) {
+            case 0:
+                Facebook f = new Facebook();
+                break;
+            case 1:
+                Instagram i = new Instagram();
+                break;
+        }
     }
 
 

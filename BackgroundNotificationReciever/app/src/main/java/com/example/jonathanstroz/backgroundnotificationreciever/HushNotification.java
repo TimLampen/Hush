@@ -32,7 +32,7 @@ public class HushNotification {
         rows = getRowCount();
     }
 
-    private static final class ApplicationPackageNames {
+    public static final class ApplicationPackageNames {
         public static final String FACEBOOK_PACK_NAME = "com.facebook.katana";
         public static final String FACEBOOK_MESSENGER_PACK_NAME = "com.facebook.orca";
         public static final String WHATSAPP_PACK_NAME = "com.whatsapp";
@@ -49,6 +49,15 @@ public class HushNotification {
         public static final int SNAPCHAT_CODE = 4;
         public static final int HUSH_CODE = 5;
         public static final int OTHER_NOTIFICATIONS_CODE = 0;
+    }
+
+    public static final class ApplicationNames {
+        public static final String FACEBOOK_NAME = "Facebook";
+        public static final String WHATSAPP_NAME = "Whatsapp";
+        public static final String INSTAGRAM_NAME = "Instagram";
+        public static final String SNAPCHAT_NAME = "Snapchat";
+        public static final String HUSH_NAME = "Hush";
+        public static final String OTHER_NOTIFICATIONS_NAME = "Other";
     }
 
     private int getAppCode(String source){

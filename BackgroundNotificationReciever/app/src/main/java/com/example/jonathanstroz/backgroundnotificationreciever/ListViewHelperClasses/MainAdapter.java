@@ -1,4 +1,4 @@
-package com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses;
+package com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,12 +18,13 @@ public class MainAdapter extends ArrayAdapter<MainListItem> {
 
     private List<MainListItem> mainListItems;
     private LayoutInflater inflater;
+    private int res;
 
     public MainAdapter(Context context, int resource, List<MainListItem> objects) {
         super(context, resource, objects);
+        res = resource;
         mainListItems = objects;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     @Override
@@ -45,7 +46,7 @@ public class MainAdapter extends ArrayAdapter<MainListItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.e("XXXX", position+"");
         // @TODO view
-        convertView = inflater.inflate(R.layout.custom_list_element_main,null);
+        convertView = inflater.inflate(res,null);
 
         View view = convertView;
         MainViewHolder holder;

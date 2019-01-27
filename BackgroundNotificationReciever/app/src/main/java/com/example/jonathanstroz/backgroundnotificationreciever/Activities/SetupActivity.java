@@ -5,15 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.jonathanstroz.backgroundnotificationreciever.Database.DatabaseHelper;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainAdapter;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainViewHolder;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainViewHolder;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,7 @@ public class SetupActivity extends AppCompatActivity {
     private static TextView test;
 
     private ArrayList<Integer> appsToActivate;
+    private ArrayList<Integer> activatedApps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -32,24 +35,47 @@ public class SetupActivity extends AppCompatActivity {
 
         mDatabaseHelper = MainActivity.mDatabaseHelper;
 
+//        mDatabaseHelper.reset();
+//
+//        int i = 1/0;
+
         mDatabaseHelper.initializeApplicationTable();
 
         setContentView(R.layout.activity_setup);
 
-        ListView v = findViewById(R.id.setupListView);
 
-        Log.e("XXXX", v.getId()+"");
+        Button b  = (Button) findViewById(R.id.activationButton);
+        ListView listV = findViewById(R.id.setupListView);
 
-        v.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activateApps(v);
+            }
+        });
+
+        listV.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MainViewHolder holder = (MainViewHolder) view.getTag();
-                appsToActivate.add(holder.getAppId());
+
+                if(appsToActivate.indexOf(holder.getAppId()) > -1){
+                    appsToActivate.remove(appsToActivate.indexOf(holder.getAppId()));
+                    Log.e("APP DEACTIVATED", holder.getAppName()+"");
+                    ImageView symbol = (ImageView) view.findViewById(R.id.sign);
+                    symbol.setImageResource(R.drawable.plus_sign);
+                }
+                else {
+                    appsToActivate.add(holder.getAppId());
+                    Log.e("APP ACTIVATED", holder.getAppName()+"");
+                    ImageView symbol = (ImageView) view.findViewById(R.id.sign);
+                    symbol.setImageResource(R.drawable.minus_sign);
+                }
             }
 
         });
 
-        v.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 return false;
@@ -58,15 +84,17 @@ public class SetupActivity extends AppCompatActivity {
 
         ArrayList<MainListItem> list = mDatabaseHelper.getInActiveApps();
 
-        Log.e("XXXX", list.size()+"");
         MainAdapter adapter = new MainAdapter(this, R.layout.custom_list_element_setup, list);
 
-        v.setAdapter(adapter);
+        listV.setAdapter(adapter);
     }
 
-    public void activateApps(View v){
+    public void activateApps(View v) {
         // @TODO set the app to active in the database
-        mDatabaseHelper.activateApps(appsToActivate);
+        if(appsToActivate.size() > 0) {
+            mDatabaseHelper.activateApps(appsToActivate);
+            finish();
+        }
     }
 
 }

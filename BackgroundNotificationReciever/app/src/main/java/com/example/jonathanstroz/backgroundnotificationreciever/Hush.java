@@ -18,10 +18,10 @@ import android.os.Build;
  * 2. Priorities
  */
 public class Hush extends Application {
-    public static final String CHANNEL_1_ID = "High_Priority";
-    public static final String CHANNEL_2_ID = "Medium_Priority";
-    public static final String CHANNEL_3_ID = "Low_Priority";
-    public static final String CHANNEL_4_ID = "Bucket";
+    public static final String CHANNEL_1_ID = "HUSH_HIGH";
+    public static final String CHANNEL_2_ID = "HUSH_LOW";
+    public static final String CHANNEL_3_ID = "HUSH_MEDIUM";
+    public static final String CHANNEL_4_ID = "bucket";
 
     @Override
     public void onCreate() {

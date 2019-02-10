@@ -2,24 +2,35 @@ package com.example.jonathanstroz.backgroundnotificationreciever;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.app.NotificationChannel;
+
+import java.util.Random;
 
 import static android.app.Notification.Builder.recoverBuilder;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
+import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.bucket_channel;
+import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.high_channel;
+import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.low_channel;
 import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.mDatabaseHelper;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.notificationManager;
-
+import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.medium_channel;
 
 public class NotificationService extends NotificationListenerService {
-    private static int SUMMARY_ID = 1000000;
+    private static int SUMMARY_ID = 0;
+    public NotificationManager notificationManager;
     @Override
     public IBinder onBind(Intent intent) {
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         return super.onBind(intent);
     }
 
@@ -27,11 +38,12 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn){
         String channel = sbn.getNotification().getChannelId();
         HushNotification notif = new HushNotification(sbn);
-        if(notif.getRow() % 100 == 0){
-            //call train algorithms
-        }
+
         if (notif.getNotifcationCode() != 5) {
-            sendNotifcation(notif);
+
+            notificationManager.cancel(sbn.getTag(), sbn.getId());
+            cancelNotification(sbn.getKey());
+            sendNotifcation(notif, sbn);
         }
     }
 
@@ -58,34 +70,44 @@ public class NotificationService extends NotificationListenerService {
         Log.d(" **** Inserted: ", Long.toString(insertData));
     }
 
-    private void sendNotifcation(HushNotification notif){
+    public static void cancelNotification(Context ctx, int notifyId) {
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
+        nMgr.cancel(notifyId);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void sendNotifcation(HushNotification notif, StatusBarNotification sbn){
         Notification notification = notif.getNotification();
         if (notif.getPriority() == 1){
             notification.priority = Notification.PRIORITY_HIGH;
-            notificationManager.notify(notif.getId(),notification);
+            Notification notificationBuild = recoverBuilder(this, notification)
+                    .setChannelId(high_channel)
+                    .build();
+            notificationManager.notify(sbn.getTag(), sbn.getId(), notificationBuild);
         }else if (notif.getPriority() == 2){
             notification.priority = Notification.PRIORITY_DEFAULT;
-            notificationManager.notify(notif.getId(),notification);
+            Notification notificationBuild = recoverBuilder(this, notification)
+                    .setChannelId(medium_channel)
+                    .build();
+
+            notificationManager.notify(sbn.getTag(), sbn.getId(), notificationBuild);
         }else if (notif.getPriority() == 3){
             notification.priority = Notification.PRIORITY_LOW;
-            notificationManager.notify(notif.getId(),notification);
+            Notification notificationBuild = recoverBuilder(this, notification)
+                    .setChannelId(low_channel)
+                    .setPriority(Notification.PRIORITY_LOW)
+                    .build();
+            notificationManager.notify(sbn.getTag(), sbn.getId(), notificationBuild);
+
         }else if (notif.getPriority() == 4){
             notification.priority = Notification.PRIORITY_LOW;
-            //Save into notification bucket
+
             Notification notificationBuild = recoverBuilder(this, notification)
-                    .setGroup("Notification_Bucket")
+                    .setChannelId("bucket")
                     .build();
 
-            Notification summaryNotification = new NotificationCompat.Builder(this,CHANNEL_1_ID)
-                    .setSmallIcon(R.drawable.ic_announcement_black_24dp)
-                    .setContentTitle("Notification Bucket")
-                    .setContentText("Notification Bucket")
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setGroupSummary(true)
-                    .build();
-
-            notificationManager.notify(notif.getId(),notificationBuild);
-            notificationManager.notify(SUMMARY_ID,summaryNotification);
+            notificationManager.notify(sbn.getTag(), notif.getId(), notificationBuild);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.jonathanstroz.backgroundnotificationreciever;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,6 +26,7 @@ public class NotifBroadcastReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         notificationManager = NotificationManagerCompat.from(context);
+
         cancelActiveNotifications(context);
     }
 

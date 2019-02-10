@@ -1,6 +1,7 @@
 package com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses;
 
 import android.content.Context;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ public class MainAdapter extends ArrayAdapter<MainListItem> {
     private List<MainListItem> mainListItems;
     private LayoutInflater inflater;
     private int res;
+
+    public String deviceID = Settings.Secure.getString(getContext().getContentResolver(),Settings.Secure.ANDROID_ID);
 
     public MainAdapter(Context context, int resource, List<MainListItem> objects) {
         super(context, resource, objects);

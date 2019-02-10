@@ -6,8 +6,11 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.Settings;
 import android.util.Log;
 
+import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity;
+import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Facebook;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Instagram;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
@@ -36,6 +39,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 */
 
+    private Context dbhContext;
+
     private static final String TAG = "DatabaseHelper";
     private static final String DATABASE_NAME = "hushDB";
 
@@ -55,7 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_NAME = "name";
     private static final String KEY_ACTIVATED = "activated";
     private static final String KEY_FEATURES = "features";
-
 
 
     //@TODO Add more user tables
@@ -97,6 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        dbhContext = context;
     }
 
     @Override
@@ -119,6 +124,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_APPLICATIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERINFO);
+        db.execSQL("DROP TABLE IF EXISTS " + HushNotification.ApplicationNames.FACEBOOK_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + HushNotification.ApplicationNames.INSTAGRAM_NAME);
     }
 
     public long addData(String source, String title, String message, Long time, String reason){
@@ -146,11 +153,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if(c.moveToFirst()) {
                 int initiated = c.getInt(c.getColumnIndex(KEY_INIT));
                 if (initiated > 0) {
+                    db.close();
                     return true;
                 }
             }
+            else{
+                SQLiteDatabase writeDB = this.getWritableDatabase();
+
+                ContentValues userInfoCV = new ContentValues();
+                userInfoCV.put(KEY_INIT, 0);
+                userInfoCV.put(KEY_DEVICEID, Settings.Secure.getString(dbhContext.getContentResolver(), Settings.Secure.ANDROID_ID)); // TODO
+
+                Log.e("USERINFOUPDATE", userInfoCV.toString());
+                writeDB.insert(TABLE_USERINFO,null,userInfoCV);
+                writeDB.close();
+            }
+            db.close();
             return false;
         }
+
+
     }
 
     public boolean checkIfTableCreated(String tableName){
@@ -257,12 +279,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int nameIndex = c.getColumnIndex(KEY_NAME);
         int idIndex = c.getColumnIndex(KEY_ID);
 
+        Log.e("QUERY",query);
+        Log.e("CURSOR OUTPUT",DatabaseUtils.dumpCursorToString(c));
+
         if(c.moveToFirst()){
             do{
                 int appID = c.getInt(idIndex);
                 apps.add(new MainListItem(c.getString(nameIndex), APPLICATION_IMAGES[appID], appID));
             }while(c.moveToNext());
         }
+
+
 
         c.close();
         db.close();
@@ -271,17 +298,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void activateApps(ArrayList<Integer> appsToAdd){
-        String query = "UPDATE "+TABLE_APPLICATIONS+" SET " + KEY_ACTIVATED + " = 1 WHERE ";
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        String condition = "";
 
-        for(int i=0;i<appsToAdd.size() - 1; i++){
-            query += KEY_ID + " = " + appsToAdd.get(i) + " OR ";
+        ContentValues applicationCV = new ContentValues();
+        applicationCV.put(KEY_ACTIVATED,1);
+
+        ContentValues userInfoCV = new ContentValues();
+        userInfoCV.put(KEY_INIT, 1);
+
+        for(int i=0;i<appsToAdd.size(); i++){
+
+            if(i == appsToAdd.size()-1){
+                condition += KEY_ID+" = "+appsToAdd.get(i);
+            }
+            else{
+                condition += KEY_ID+" = "+appsToAdd.get(i)+" OR ";
+            }
             initializeTable(appsToAdd.get(i));
         }
 
-        query += KEY_ID + " = " + appsToAdd.get(appsToAdd.size() - 1) + ";";
+        if(!this.isInitialized()){
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.update(TABLE_USERINFO, userInfoCV, null,null);
+        }
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        db.update(TABLE_APPLICATIONS, applicationCV, condition,null);
+
+        db.close();
     }
 
     private void initializeTable(int id){

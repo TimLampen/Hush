@@ -41,7 +41,7 @@ public class AppHolder {
     }
 
     public String toCreateQuery(){
-        String query = "CREATE TABLE "+name+" ( FeatureID Integer PRIMARY KEY, FeatureName varchar(100) NOT NULL, Importance Integer DEFAULT 2);"
+        String query = "CREATE TABLE IF NOT EXISTS "+name+" ( FeatureID Integer PRIMARY KEY, FeatureName varchar(100) NOT NULL, Importance Integer DEFAULT 2);"
                 + "INSERT INTO "+ name +" (FeatureID, FeatureName, Importance) VALUES ";
 
 

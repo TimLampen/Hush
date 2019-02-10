@@ -3,6 +3,7 @@ package com.example.jonathanstroz.backgroundnotificationreciever;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
+import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -10,8 +11,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.os.Build;
+import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -31,9 +36,17 @@ import java.util.ArrayList;
 
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_2_ID;
+import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_3_ID;
+import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_4_ID;
 
 public class MainActivity extends AppCompatActivity {
     public NotificationManagerCompat notificationManager;
+
+    public static final String high_channel = "HUSH_HIGH";
+    public static final String low_channel = "HUSH_LOW";
+    public static final String medium_channel = "HUSH_MEDIUM";
+    public static final String bucket_channel = "HUSH_BUCKET";
+    public static final String groupId = "bucket_group";
 
     NotifBroadcastReciever notifBroadcastReciever = new NotifBroadcastReciever();
 
@@ -50,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     private Button loadingScreenButton;
     private View.OnClickListener appSelector;
 
+    //maybe this works
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         notificationManager = NotificationManagerCompat.from(this);
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(notifBroadcastReciever, filter);
-        setChannels();
+        createNotifcationChannels();
         setContentView(R.layout.loading_screen);
 
 
@@ -265,16 +280,73 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(1000, summaryNotification);
     }
 
+
+    /*
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setChannels(){
         //create notification channels
+        NotificationManager nManager = getApplicationContext().getSystemService(NotificationManager.class);
+
         NotificationChannel highChannel = new NotificationChannel("SENDHIGH", "HUSH_SEND_ON_HIGH", NotificationManager.IMPORTANCE_HIGH );
-        NotificationManager.createNotificationChannel(highChannel);
+        nManager.createNotificationChannel(highChannel);
 
-        NotificationChannel defChannel = new NotificationChannel("SENDMEDIUM", "HUSH_SEND_ON_HIGH", NotificationManager.IMPORTANCE_DEFAULT );
-        NotificationManager.createNotificationChannel(defChannel);
+        NotificationChannel defChannel = new NotificationChannel("SENDDEF", "HUSH_SEND_ON_DEFAULT", NotificationManager.IMPORTANCE_DEFAULT );
+        nManager.createNotificationChannel(defChannel);
 
-        NotificationChannel lowChannel = new NotificationChannel("SENDLOW", "HUSH_SEND_ON_HIGH", NotificationManager.IMPORTANCE_MIN );
-        NotificationManager.createNotificationChannel(lowChannel);
+        NotificationChannel lowChannel = new NotificationChannel("SENDLOW", "HUSH_SEND_ON_LOW", NotificationManager.IMPORTANCE_MIN );
+        nManager.createNotificationChannel(lowChannel);
+
+        NotificationChannel bucketChannel = new NotificationChannel("SENDBUCKET", "HUSH_SEND_ON_BUCKET", NotificationManager.IMPORTANCE_LOW);
+        nManager.createNotificationChannel(bucketChannel);
+    } */
+
+    private void createNotifcationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel1 = new NotificationChannel(
+                    CHANNEL_1_ID,
+                    high_channel,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel1.setDescription("High Priority Notification Route");
+
+            NotificationChannel channel3 = new NotificationChannel(
+                    CHANNEL_3_ID,
+                    low_channel,
+                    NotificationManager.IMPORTANCE_LOW
+            );
+            channel3.setDescription("Low Priority Notification Route");
+
+            NotificationChannel channel2 = new NotificationChannel(
+                    CHANNEL_2_ID,
+                    medium_channel,
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            channel2.enableLights(true);
+            channel2.setLightColor(Color.RED);
+            channel2.enableVibration(true);
+            channel2.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            channel3.setDescription("Medium Priority Notification Route");
+
+            NotificationChannel channel4 = new NotificationChannel(
+                    CHANNEL_4_ID,
+                    bucket_channel,
+                    NotificationManager.IMPORTANCE_MIN //FIX
+            );
+
+            channel4.setDescription("Bucket Notification Route");
+
+
+            CharSequence groupName = "Some Group";
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannelGroup(new NotificationChannelGroup(groupId, groupName));
+            channel4.setGroup(groupId);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+            manager.createNotificationChannel(channel2);
+            manager.createNotificationChannel(channel3);
+            manager.createNotificationChannel(channel4);
+        }
     }
-
 }

@@ -3,6 +3,8 @@ import android.app.Notification;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 
+import java.util.Random;
+
 import static com.example.jonathanstroz.backgroundnotificationreciever.DatabaseHelper.getRowCount;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
 
@@ -19,6 +21,7 @@ public class HushNotification {
     private int cancelReason = 0;
     private int code = 0;
     private int rows = 0;
+
     //Constructor
     public HushNotification(StatusBarNotification sbn){
         status_notif = sbn;
@@ -36,12 +39,11 @@ public class HushNotification {
 
     private static final class ApplicationPackageNames {
         public static final String FACEBOOK_PACK_NAME = "com.facebook.katana";
-        public static final String FACEBOOK_MESSENGER_PACK_NAME = "com.facebook.orca";
+        public static final String FACEBOOK_MESSENGER_PACK_NAME =  "com.facebook.orca";
         public static final String WHATSAPP_PACK_NAME = "com.whatsapp";
         public static final String INSTAGRAM_PACK_NAME = "com.instagram.android";
         public static final String SNAPCHAT_PACK_NAME = "com.snapchat.android";
         public static final String HUSH_PACK_NAME = "com.example.jonathanstroz.backgroundnotificationreciever";
-        //Messaging Code
     }
 
     public static final class InterceptedNotificationCode {
@@ -90,7 +92,10 @@ public class HushNotification {
         // 3 = low
         // 4 = bucket
         // 5 = ignore
-        return 4;
+        Random rand = new Random();
+        int randomNum = rand.nextInt((5 - 1) + 1) + 1;
+
+        return 1;
     }
 
     public long getTime(){
@@ -111,6 +116,7 @@ public class HushNotification {
     public int getId() { return id;}
     public Notification getNotification() {return notification;}
     public StatusBarNotification getStatus_notif() {return status_notif;}
+
     public void setCancelReason(int reason){
         if(reason == 1 || reason == 2 || reason == 3){
             cancelReason = reason;

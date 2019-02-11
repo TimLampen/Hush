@@ -33,6 +33,9 @@ import static com.example.jonathanstroz.backgroundnotificationreciever.DatabaseH
 
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.CustomAdapter;
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.ListItem;
+import com.firebase.client.Firebase;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -101,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.github.chagall.notificationlistenerexample");
         registerReceiver(imageChangeBroadcastReceiver,intentFilter);
+
+        Firebase.setAndroidContext(this);
+
+        //Newer version of Firebase
+        if(!FirebaseApp.getApps(this).isEmpty()) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        }
     }
 
     @Override

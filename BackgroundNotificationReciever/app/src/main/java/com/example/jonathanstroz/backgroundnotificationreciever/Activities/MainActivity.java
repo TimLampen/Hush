@@ -29,6 +29,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+
+import com.firebase.client.Firebase;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
 import com.example.jonathanstroz.backgroundnotificationreciever.Database.DatabaseHelper;
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
 import com.example.jonathanstroz.backgroundnotificationreciever.NotifBroadcastReciever;
@@ -98,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.github.chagall.notificationlistenerexample");
         registerReceiver(imageChangeBroadcastReceiver,intentFilter);
+
+        Firebase.setAndroidContext(this);
+
+        //Newer version of Firebase
+        if(!FirebaseApp.getApps(this).isEmpty()) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        }
 
         // check Database for app initiated flag
         if(!mDatabaseHelper.isInitialized()){

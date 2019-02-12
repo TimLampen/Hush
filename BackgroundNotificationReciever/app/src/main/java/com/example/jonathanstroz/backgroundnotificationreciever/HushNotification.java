@@ -2,13 +2,17 @@ package com.example.jonathanstroz.backgroundnotificationreciever;
 import android.app.Notification;
 import android.service.notification.StatusBarNotification;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.Random;
 
 import static com.example.jonathanstroz.backgroundnotificationreciever.Database.DatabaseHelper.getRowCount;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
 
 public class HushNotification {
+    @Exclude
     private Notification notification = new Notification();
+
     private int notification_code = 0;
     private String source;
     private int priority;
@@ -23,7 +27,7 @@ public class HushNotification {
 
     //Constructor
     public HushNotification(StatusBarNotification sbn){
-        status_notif = sbn;
+        status_notif = sbn; //
         time = sbn.getPostTime();
         notification = sbn.getNotification();
         message = notification.extras.getCharSequence(Notification.EXTRA_TEXT).toString();
@@ -33,7 +37,6 @@ public class HushNotification {
         priority = setPriority(notification);
         id = sbn.getId();
         code = getAppCode(source);
-        rows = getRowCount();
     }
 
     public static final class ApplicationPackageNames {
@@ -106,6 +109,7 @@ public class HushNotification {
         return 1;
     }
 
+    public String getSource(){return source;}
     public long getTime(){
         return time;
     }
@@ -122,9 +126,10 @@ public class HushNotification {
         return title;
     }
     public int getId() { return id;}
-    public Notification getNotification() {return notification;}
-    public StatusBarNotification getStatus_notif() {return status_notif;}
 
+    @Exclude public Notification getNotification() {return notification;} // Exclude Notification Feild
+
+    public StatusBarNotification getStatus_notif() {return status_notif;}
     public void setCancelReason(int reason){
         if(reason == 1 || reason == 2 || reason == 3){
             cancelReason = reason;

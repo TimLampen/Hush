@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
@@ -16,6 +17,12 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.app.NotificationChannel;
 
+import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static android.app.Notification.Builder.recoverBuilder;
@@ -44,7 +51,7 @@ public class NotificationService extends NotificationListenerService {
         String channel = sbn.getNotification().getChannelId();
         HushNotification notif = new HushNotification(sbn);
 
-        if (notif.getNotifcationCode() != 5) {
+       if (notif.getNotifcationCode() != 5) {
 
             notificationManager.cancel(sbn.getTag(), sbn.getId());
             cancelNotification(sbn.getKey());
@@ -61,12 +68,15 @@ public class NotificationService extends NotificationListenerService {
 
         if(notif.getCancelReason() != 0) {
             addToDataset(notif);
+
         }
     }
 
+
     public void addToDataset(HushNotification notif){
-        //add the noification to the dataset with all of its informationa as well as its reason
-        AddData(Integer.toString(notif.getNotifcationCode()), notif.getTitle(), notif.getMessage(), notif.getTime(), Integer.toString(notif.getCancelReason()));
+        Firebase ref = new Firebase("https://hush-808f8.firebaseio.com/");
+        DatabaseNotification c_notif = new DatabaseNotification(notif);
+        ref.child("Notifications").push().setValue(c_notif);
     }
 
     public void AddData(String source, String title, String message, long time, String cancelReason){

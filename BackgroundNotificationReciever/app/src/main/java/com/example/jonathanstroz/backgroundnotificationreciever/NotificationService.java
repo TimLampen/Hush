@@ -1,10 +1,11 @@
 package com.example.jonathanstroz.backgroundnotificationreciever;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -26,11 +27,15 @@ import java.util.Random;
 
 import static android.app.Notification.Builder.recoverBuilder;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.bucket_channel;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.high_channel;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.low_channel;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.mDatabaseHelper;
-import static com.example.jonathanstroz.backgroundnotificationreciever.MainActivity.medium_channel;
+
+import static com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity.bucket_channel;
+import static com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity.high_channel;
+import static com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity.low_channel;
+import static com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity.mDatabaseHelper;
+import static com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity.medium_channel;
+
+import static com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity.mDatabaseHelper;
+
 
 public class NotificationService extends NotificationListenerService {
     private static int SUMMARY_ID = 0;

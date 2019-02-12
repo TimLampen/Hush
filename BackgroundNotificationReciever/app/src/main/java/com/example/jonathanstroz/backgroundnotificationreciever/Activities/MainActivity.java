@@ -1,4 +1,4 @@
-package com.example.jonathanstroz.backgroundnotificationreciever;
+package com.example.jonathanstroz.backgroundnotificationreciever.Activities;
 
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -29,13 +29,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import static com.example.jonathanstroz.backgroundnotificationreciever.DatabaseHelper.getDb;
 
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.CustomAdapter;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.ListItem;
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
+import com.example.jonathanstroz.backgroundnotificationreciever.Database.DatabaseHelper;
+import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
+import com.example.jonathanstroz.backgroundnotificationreciever.NotifBroadcastReciever;
+import com.example.jonathanstroz.backgroundnotificationreciever.R;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainViewHolder;
 
 import java.util.ArrayList;
 
@@ -59,12 +63,18 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
     private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
+    public static final String APPID = "com.example.jonathanstroz.backgroundnotificationreciever.appId";
+    public static final String APPNAME = "com.example.jonathanstroz.backgroundnotificationreciever.appName";
+    public static final String APPIMAGE = "com.example.jonathanstroz.backgroundnotificationreciever.appImage";
+
+
+
 
     private ImageView interceptedNotificationImageView;
     private ImageChangeBroadcastReceiver imageChangeBroadcastReceiver;
     private AlertDialog enableNotificationListenerAlertDialog;
     private ListView contentListView;
-    private ArrayList<ListItem> homeListItems;
+    private ArrayList<MainListItem> homeMainListItems;
     private Button loadingScreenButton;
     private View.OnClickListener appSelector;
 
@@ -78,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(notifBroadcastReciever, filter);
         createNotifcationChannels();
-        setContentView(R.layout.loading_screen);
-
 
         // If the user did not turn the notification listener service on we prompt him to do so
         if(!isNotificationServiceEnabled()){
@@ -88,16 +96,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mDatabaseHelper = new DatabaseHelper(this);
-
-        // check Database for app initiated flag
-        loadingScreenButton = (Button) findViewById(R.id.getStartedBtn);
-
-        loadingScreenButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadApp(v);
-            }
-        });
 
         // Finally we register a receiver to tell the MainActivity when a notification has been received
         imageChangeBroadcastReceiver = new ImageChangeBroadcastReceiver();
@@ -111,6 +109,14 @@ public class MainActivity extends AppCompatActivity {
         if(!FirebaseApp.getApps(this).isEmpty()) {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
+
+        // check Database for app initiated flag
+        if(!mDatabaseHelper.isInitialized()){
+            setContentView(R.layout.loading_screen);
+        }
+        else{
+            loadApp();
+        }
     }
 
     @Override
@@ -120,11 +126,20 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(notifBroadcastReciever);
     }
 
-    public void loadApp(View v){
+    public void setupUser(View v){
+        Log.e("XXXX","method has been run");
+        if(!mDatabaseHelper.isInitialized()) {
+            Intent i = new Intent(this, SetupActivity.class); // @TODO check use of activity for this, back arrow may be difficult
+            startActivity(i);
+        }
+        else{
+            loadApp();
+        }
+    }
 
-        loadingScreenButton = null;
+    public void loadApp(){
         // @TODO load data from sql Database
-
+        homeMainListItems = getList();
         setContentView(R.layout.main_screen);
 
         contentListView = (ListView) this.findViewById(R.id.contentListView);
@@ -132,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         contentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                appSelected(view,position,id);
             }
 
         });
@@ -144,21 +159,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        homeListItems = getList();
-        CustomAdapter adapter = new CustomAdapter(this, R.layout.custom_list_element_main, homeListItems);
+
+        MainAdapter adapter = new MainAdapter(this, R.layout.custom_list_element_main, homeMainListItems);
 
         contentListView.setAdapter(adapter);
 
     }
 
-    public ArrayList<ListItem> getList(){
-        ArrayList<ListItem> listContent = new ArrayList<ListItem>(); // @TODO this will be calling the database function
+    public void appSelected(View v, int pos, long id) {
+        Intent i = new Intent(this, AppDetailsActivity.class);
+        MainViewHolder holder = (MainViewHolder) v.getTag();
+        i.putExtra(APPID, holder.getAppId());
+        i.putExtra(APPNAME, holder.getAppName());
+        i.putExtra(APPIMAGE, holder.getAppImage());
+        startActivity(i);
+    }
 
-        ListItem item1 = new ListItem("Facebook", R.drawable.facebook_logo_small);
-        ListItem item2 = new ListItem("Instagram", R.drawable.instagram_logo_small);
+    /**
+     * @TODO make use of database
+     * @return
+     */
+    public ArrayList<MainListItem> getList(){
+        ArrayList<MainListItem> listContent = mDatabaseHelper.getActiveApps(); // @TODO this will be calling the database function
 
-        listContent.add(item1);
-        listContent.add(item2);
+//        MainListItem item1 = new MainListItem("Facebook", R.drawable.facebook_logo_small, HushNotification.InterceptedNotificationCode.FACEBOOK_CODE);
+//        MainListItem item2 = new MainListItem("Instagram", R.drawable.instagram_logo_small, HushNotification.InterceptedNotificationCode.INSTAGRAM_CODE);
+//
+//        listContent.add(item1);
+//        listContent.add(item2);
         return listContent;
     }
 

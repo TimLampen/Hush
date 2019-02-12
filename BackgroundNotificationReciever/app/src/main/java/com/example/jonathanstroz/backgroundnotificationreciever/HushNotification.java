@@ -40,17 +40,6 @@ public class HushNotification {
         code = getAppCode(source);
     }
 
-    public HushNotification(HushNotification copy){
-        time = copy.getTime();
-        message = copy.getMessage();
-        title = copy.getTitle();
-        source = copy.getSource();
-        notification_code = copy.getNotifcationCode();
-        id = copy.getId();
-        code = getAppCode(source);
-        cancelReason = copy.getCancelReason();
-    }
-
     private static final class ApplicationPackageNames {
         public static final String FACEBOOK_PACK_NAME = "com.facebook.katana";
         public static final String FACEBOOK_MESSENGER_PACK_NAME =  "com.facebook.orca";

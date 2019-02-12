@@ -70,7 +70,7 @@ public class NotificationService extends NotificationListenerService {
 
     public void addToDataset(HushNotification notif){
         Firebase ref = new Firebase("https://hush-808f8.firebaseio.com/");
-        HushNotification c_notif = new HushNotification(notif);
+        DatabaseNotification c_notif = new DatabaseNotification(notif);
         ref.child("Notifications").push().setValue(c_notif);
     }
 

@@ -65,7 +65,7 @@ public class NotificationService extends NotificationListenerService {
         Log.e("CHECK","We reached here");
         HushNotification notif = new HushNotification(sbn);
         notif.setCancelReason(reason);
-
+    //test
         if(notif.getCancelReason() != 0) {
             addToDataset(notif);
 

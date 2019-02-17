@@ -106,7 +106,7 @@ public class HushNotification {
         Random rand = new Random();
         int randomNum = rand.nextInt((5 - 1) + 1) + 1;
 
-        return 1;
+        return 4;
     }
 
     public String getSource(){return source;}

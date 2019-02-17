@@ -342,31 +342,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNotifcationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel1 = new NotificationChannel(
-                    CHANNEL_1_ID,
-                    high_channel,
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            channel1.setDescription("High Priority Notification Route");
-
-            NotificationChannel channel3 = new NotificationChannel(
-                    CHANNEL_3_ID,
-                    low_channel,
-                    NotificationManager.IMPORTANCE_LOW
-            );
-            channel3.setDescription("Low Priority Notification Route");
-
-            NotificationChannel channel2 = new NotificationChannel(
-                    CHANNEL_2_ID,
-                    medium_channel,
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            channel2.enableLights(true);
-            channel2.setLightColor(Color.RED);
-            channel2.enableVibration(true);
-            channel2.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            channel3.setDescription("Medium Priority Notification Route");
-
             NotificationChannel channel4 = new NotificationChannel(
                     CHANNEL_4_ID,
                     bucket_channel,
@@ -383,9 +358,6 @@ public class MainActivity extends AppCompatActivity {
             channel4.setGroup(groupId);
 
             NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel1);
-            manager.createNotificationChannel(channel2);
-            manager.createNotificationChannel(channel3);
             manager.createNotificationChannel(channel4);
         }
     }

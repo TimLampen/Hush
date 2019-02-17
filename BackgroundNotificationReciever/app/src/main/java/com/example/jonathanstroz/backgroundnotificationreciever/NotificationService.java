@@ -48,11 +48,9 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn){
-        String channel = sbn.getNotification().getChannelId();
         HushNotification notif = new HushNotification(sbn);
 
        if (notif.getNotifcationCode() != 5) {
-
             notificationManager.cancel(sbn.getTag(), sbn.getId());
             cancelNotification(sbn.getKey());
             sendNotifcation(notif, sbn);
@@ -72,57 +70,25 @@ public class NotificationService extends NotificationListenerService {
         }
     }
 
-
     public void addToDataset(HushNotification notif){
         Firebase ref = new Firebase("https://hush-808f8.firebaseio.com/");
         DatabaseNotification c_notif = new DatabaseNotification(notif);
         ref.child("Notifications").push().setValue(c_notif);
     }
 
-    public void AddData(String source, String title, String message, long time, String cancelReason){
-        //Check if successfully entered into the DB
-        Long insertData = mDatabaseHelper.addData(source, title, message, time, cancelReason);
-        Log.d(" **** Inserted: ", Long.toString(insertData));
-    }
-
-    public static void cancelNotification(Context ctx, int notifyId) {
-        String ns = Context.NOTIFICATION_SERVICE;
-        NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
-        nMgr.cancel(notifyId);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendNotifcation(HushNotification notif, StatusBarNotification sbn){
         Notification notification = notif.getNotification();
-        if (notif.getPriority() == 1){
-            notification.priority = Notification.PRIORITY_HIGH;
-            Notification notificationBuild = recoverBuilder(this, notification)
-                    .setChannelId(high_channel)
-                    .build();
-            notificationManager.notify(sbn.getTag(), sbn.getId(), notificationBuild);
-        }else if (notif.getPriority() == 2){
-            notification.priority = Notification.PRIORITY_DEFAULT;
-            Notification notificationBuild = recoverBuilder(this, notification)
-                    .setChannelId(medium_channel)
-                    .build();
-
-            notificationManager.notify(sbn.getTag(), sbn.getId(), notificationBuild);
-        }else if (notif.getPriority() == 3){
+        if (notif.getPriority() == 4){
             notification.priority = Notification.PRIORITY_LOW;
-            Notification notificationBuild = recoverBuilder(this, notification)
-                    .setChannelId(low_channel)
-                    .setPriority(Notification.PRIORITY_LOW)
-                    .build();
-            notificationManager.notify(sbn.getTag(), sbn.getId(), notificationBuild);
-
-        }else if (notif.getPriority() == 4){
-            notification.priority = Notification.PRIORITY_LOW;
-
             Notification notificationBuild = recoverBuilder(this, notification)
                     .setChannelId("bucket")
                     .build();
+            int id = notif.getId();
+            String tag = sbn.getTag();
 
-            notificationManager.notify(sbn.getTag(), notif.getId(), notificationBuild);
+            notificationManager.notify(tag, id, notificationBuild);
         }
     }
+
 }

@@ -31,6 +31,7 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <service android:name=".BackgroundService" />
 
         <receiver android:name=".Activities.MainActivity$ImageChangeBroadcastReceiver" />
 

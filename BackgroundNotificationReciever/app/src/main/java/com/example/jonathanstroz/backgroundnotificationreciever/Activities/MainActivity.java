@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 
+import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundService;
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
@@ -57,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String bucket_channel = "HUSH_BUCKET";
     public static final String groupId = "bucket_group";
 
-    NotifBroadcastReciever notifBroadcastReciever = new NotifBroadcastReciever();
-
     public static DatabaseHelper mDatabaseHelper;
 
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
@@ -84,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         notificationManager = NotificationManagerCompat.from(this);
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(notifBroadcastReciever, filter);
         createNotifcationChannels();
 
+        startService(new Intent(this, BackgroundService.class));
         // If the user did not turn the notification listener service on we prompt him to do so
         if(!isNotificationServiceEnabled()){
             enableNotificationListenerAlertDialog = buildNotificationServiceAlertDialog();
@@ -123,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(imageChangeBroadcastReceiver);
-        unregisterReceiver(notifBroadcastReciever);
     }
 
     public void setupUser(View v){

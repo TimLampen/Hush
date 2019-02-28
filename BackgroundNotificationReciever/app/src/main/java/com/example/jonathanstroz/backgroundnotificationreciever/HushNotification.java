@@ -54,7 +54,13 @@ public class HushNotification {
         public static final int INSTAGRAM_CODE = 3;
         public static final int SNAPCHAT_CODE = 4;
         public static final int HUSH_CODE = 5;
+        public static final int FACEBOOK_MESSENGER_CODE = 6;
         public static final int OTHER_NOTIFICATIONS_CODE = 0;
+
+        public static int[] getNotificationCodes(){
+            int[] temp = {OTHER_NOTIFICATIONS_CODE, FACEBOOK_CODE, WHATSAPP_CODE, INSTAGRAM_CODE, SNAPCHAT_CODE, HUSH_CODE, FACEBOOK_MESSENGER_CODE};
+            return temp;
+        }
     }
 
     public static final class ApplicationNames {
@@ -63,7 +69,26 @@ public class HushNotification {
         public static final String INSTAGRAM_NAME = "Instagram";
         public static final String SNAPCHAT_NAME = "Snapchat";
         public static final String HUSH_NAME = "Hush";
+        public static final String FACEBOOK_MESSENGER_NAME = "Messenger";
         public static final String OTHER_NOTIFICATIONS_NAME = "Other";
+
+        public static String[] getApplicationNames(){
+            String[] temp = {OTHER_NOTIFICATIONS_NAME, FACEBOOK_NAME, WHATSAPP_NAME, INSTAGRAM_NAME, SNAPCHAT_NAME, HUSH_NAME, FACEBOOK_MESSENGER_NAME};
+            return temp;
+        }
+    }
+
+    public static final class ApplicationImages {
+        public static final int FACEBOOK_IMAGE_EXTRA_SMALL = R.drawable.facebook_logo_extra_small;
+        public static final int FACEBOOK_IMAGE_SMALL = R.drawable.facebook_logo_small;
+        public static final int INSTAGRAM_IMAGE_EXTRA_SMALL = R.drawable.instagram_logo_extra_small;
+        public static final int INSTAGRAM_IMAGE_SMALL = R.drawable.instagram_logo_small;
+        public static final int DEFAULT_IMAGE = R.drawable.hush_logo_full_no_background;
+
+        public static int[] getApplicationImages() {
+            int[] temp = {DEFAULT_IMAGE, FACEBOOK_IMAGE_EXTRA_SMALL, DEFAULT_IMAGE, INSTAGRAM_IMAGE_EXTRA_SMALL, DEFAULT_IMAGE, DEFAULT_IMAGE, DEFAULT_IMAGE};
+            return temp;
+        }
     }
 
     private int getAppCode(String source){

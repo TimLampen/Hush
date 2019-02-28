@@ -93,11 +93,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String[] NOTIFICATION_COLS = {KEY_SRC, KEY_TITLE, KEY_MSG, KEY_TIME, KEY_DISMISS};
 
     // Each app ID will correspond to it's location in the array eg: facebook is id 1
-    private static final int[] APPLICATION_IMAGES = {R.drawable.facebook_logo_extra_small, R.drawable.instagram_logo_extra_small}; // @TODO add suppported appps to this array
+    private static final int[] APPLICATION_IMAGES = HushNotification.ApplicationImages.getApplicationImages();
 
-    private static final String[] APPLICATION_NAMES = {"Facebook","Instagram"};
+    private static final String[] APPLICATION_NAMES = HushNotification.ApplicationNames.getApplicationNames();
 
-    private static final int NUMBER_OF_APPLICATIONS = 2;
+    private static final int[] APPLICATION_IDS = HushNotification.InterceptedNotificationCode.getNotificationCodes();
+
+    private static final int NUMBER_OF_APPLICATIONS = APPLICATION_IDS.length;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -181,7 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c.moveToFirst();
     }
 
-    public void initializeApplicationTable(){
+    public void initializeApplicationTable(){ // @TODO synchronize loop with the notification code
         SQLiteDatabase dbWrite = mDatabaseHelper.getWritableDatabase();
 
         if(!checkIfTableCreated(TABLE_APPLICATIONS)) {
@@ -193,7 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
 
             for (int i = 0; i < NUMBER_OF_APPLICATIONS; i++) {
-                values.put(KEY_ID, i);
+                values.put(KEY_ID, APPLICATION_IDS[i]);
                 values.put(KEY_NAME, APPLICATION_NAMES[i]);
                 values.put(KEY_ACTIVATED, 0);
                 dbWrite.insert(TABLE_APPLICATIONS, null, values);
@@ -204,6 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    // @TODO check with johnny
     public static String getDb(){
 
         try {
@@ -285,7 +288,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()){
             do{
                 int appID = c.getInt(idIndex);
-                apps.add(new MainListItem(c.getString(nameIndex), APPLICATION_IMAGES[appID], appID));
+                int imageID;
+                if(appID <= NUMBER_OF_APPLICATIONS ) {
+                    imageID = APPLICATION_IMAGES[appID];
+                }
+                else{
+                    imageID = R.drawable.hush_logo_full_no_background;
+                }
+                apps.add(new MainListItem(c.getString(nameIndex), imageID, appID));
             }while(c.moveToNext());
         }
 
@@ -331,15 +341,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void initializeTable(int id){
         switch(id) {
-            case 0:
+            case HushNotification.InterceptedNotificationCode.FACEBOOK_CODE:
                 Facebook f = new Facebook();
                 break;
-            case 1:
+            case HushNotification.InterceptedNotificationCode.INSTAGRAM_CODE:
                 Instagram i = new Instagram();
                 break;
         }
     }
-
 
     public static int getRowCount(){
         //SELECT Count(*) FROM tblName

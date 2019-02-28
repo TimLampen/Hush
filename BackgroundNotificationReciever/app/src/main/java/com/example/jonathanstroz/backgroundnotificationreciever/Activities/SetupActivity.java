@@ -35,10 +35,6 @@ public class SetupActivity extends AppCompatActivity {
 
         mDatabaseHelper = MainActivity.mDatabaseHelper;
 
-//        For DEV PURPOSES
-//        mDatabaseHelper.reset();
-//
-//        int i = 1/0;
 
         mDatabaseHelper.initializeApplicationTable();
 

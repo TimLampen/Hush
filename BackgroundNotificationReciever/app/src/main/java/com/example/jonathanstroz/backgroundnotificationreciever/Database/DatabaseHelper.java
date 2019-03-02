@@ -13,7 +13,9 @@ import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainA
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Facebook;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Instagram;
+import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Messenger;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
 
 import java.util.ArrayList;
@@ -61,9 +63,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ACTIVATED = "activated";
     private static final String KEY_FEATURES = "features";
 
+    public static final String KEY_FEATUREID = "FeatureID";
+    public static final String COL_FEATURENAME = "FeatureName";
+    public static final String COL_IMPORTANCE = "Importance";
+
 
     //@TODO Add more user tables
-
     private static final String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ("
             + KEY_SRC + " TEXT NOT NULL, "
             + KEY_TITLE + " TEXT NOT NULL, "
@@ -93,11 +98,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String[] NOTIFICATION_COLS = {KEY_SRC, KEY_TITLE, KEY_MSG, KEY_TIME, KEY_DISMISS};
 
     // Each app ID will correspond to it's location in the array eg: facebook is id 1
-    private static final int[] APPLICATION_IMAGES = {R.drawable.facebook_logo_extra_small, R.drawable.instagram_logo_extra_small}; // @TODO add suppported appps to this array
+    private static final int[] APPLICATION_IMAGES = HushNotification.ApplicationImages.getApplicationImages();
 
-    private static final String[] APPLICATION_NAMES = {"Facebook","Instagram"};
+    private static final String[] APPLICATION_NAMES = HushNotification.ApplicationNames.getApplicationNames();
 
-    private static final int NUMBER_OF_APPLICATIONS = 2;
+    private static final int[] APPLICATION_IDS = HushNotification.InterceptedNotificationCode.getNotificationCodes();
+
+    private static final int NUMBER_OF_APPLICATIONS = APPLICATION_IDS.length;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -171,8 +178,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.close();
             return false;
         }
-
-
     }
 
     public boolean checkIfTableCreated(String tableName){
@@ -181,7 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c.moveToFirst();
     }
 
-    public void initializeApplicationTable(){
+    public void initializeApplicationTable(){ // @TODO synchronize loop with the notification code
         SQLiteDatabase dbWrite = mDatabaseHelper.getWritableDatabase();
 
         if(!checkIfTableCreated(TABLE_APPLICATIONS)) {
@@ -193,7 +198,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
 
             for (int i = 0; i < NUMBER_OF_APPLICATIONS; i++) {
-                values.put(KEY_ID, i);
+                values.put(KEY_ID, APPLICATION_IDS[i]);
                 values.put(KEY_NAME, APPLICATION_NAMES[i]);
                 values.put(KEY_ACTIVATED, 0);
                 dbWrite.insert(TABLE_APPLICATIONS, null, values);
@@ -204,6 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    // @TODO check with johnny to see if we still need this
     public static String getDb(){
 
         try {
@@ -274,8 +280,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery(query, null);
 
-        c.moveToFirst();
-
         int nameIndex = c.getColumnIndex(KEY_NAME);
         int idIndex = c.getColumnIndex(KEY_ID);
 
@@ -285,7 +289,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()){
             do{
                 int appID = c.getInt(idIndex);
-                apps.add(new MainListItem(c.getString(nameIndex), APPLICATION_IMAGES[appID], appID));
+                int imageID;
+                if(appID <= NUMBER_OF_APPLICATIONS ) {
+                    imageID = APPLICATION_IMAGES[appID];
+                }
+                else{
+                    imageID = R.drawable.hush_logo_full_no_background;
+                }
+                apps.add(new MainListItem(c.getString(nameIndex), imageID, appID));
             }while(c.moveToNext());
         }
 
@@ -331,15 +342,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void initializeTable(int id){
         switch(id) {
-            case 0:
-                Facebook f = new Facebook();
+            case HushNotification.InterceptedNotificationCode.FACEBOOK_CODE:
+                Facebook.init();
                 break;
-            case 1:
-                Instagram i = new Instagram();
+            case HushNotification.InterceptedNotificationCode.INSTAGRAM_CODE:
+                Instagram.init();
                 break;
+            case HushNotification.InterceptedNotificationCode.FACEBOOK_MESSENGER_CODE:
+                Messenger.init();
+                break;
+            //
+
         }
     }
 
+    public ArrayList<FeatureListItem> getFeatureList(int id){
+        String query = "Select * From "+APPLICATION_NAMES[id];
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        ArrayList<FeatureListItem> fl = new ArrayList<FeatureListItem>();
+
+        if(c.moveToFirst()){
+
+            do{
+                int featureID = c.getInt(c.getColumnIndex(KEY_FEATUREID));
+                String featureName = c.getString(c.getColumnIndex(COL_FEATURENAME));
+                int featureImportance = c.getInt(c.getColumnIndex(COL_IMPORTANCE));
+
+                fl.add(new FeatureListItem(id, featureID, featureImportance, featureName));
+            }while(c.moveToNext());
+        }
+
+        return fl;
+    }
+
+    public boolean updateFeature(int appId, int featureId, int importance, String featureName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_IMPORTANCE, importance);
+        cv.put(KEY_FEATUREID, featureId);
+        cv.put(COL_FEATURENAME, featureName);
+        db.update(APPLICATION_NAMES[appId], cv,KEY_FEATUREID +" = "+featureId, null);
+        Log.e("FEATURE UPDATED", "FEATURE ID: "+featureId+" APPID: "+appId+" IMPORTANCE: "+importance);
+        return false;
+    }
 
     public static int getRowCount(){
         //SELECT Count(*) FROM tblName

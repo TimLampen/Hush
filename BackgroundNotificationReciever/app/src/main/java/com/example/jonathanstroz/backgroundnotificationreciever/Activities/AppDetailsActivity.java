@@ -52,20 +52,21 @@ public class AppDetailsActivity extends AppCompatActivity {
         featureListView = (ListView)findViewById(R.id.featureView);
 
         // @TODO encorporate sql loading
-        features = getList();
+        features = MainActivity.mDatabaseHelper.getFeatureList(appId);
 
         FeatureAdapter adapter = new FeatureAdapter(this, R.layout.custom_list_element_features, features);
         featureListView.setAdapter(adapter);
     }
 
-    public ArrayList<FeatureListItem> getList(){
-        ArrayList<FeatureListItem> list = new ArrayList<FeatureListItem>();
-        list.add(new FeatureListItem(10,"Event"));
-        list.add(new FeatureListItem(60,"Birthday"));
-        list.add(new FeatureListItem(70,"Message"));
-        list.add(new FeatureListItem(90,"Post"));
-        return list;
-    }
+//    public ArrayList<FeatureListItem> getList(){
+//
+//        ArrayList<FeatureListItem> list = new ArrayList<FeatureListItem>();
+//        list.add(new FeatureListItem(10,"Event"));
+//        list.add(new FeatureListItem(60,"Birthday"));
+//        list.add(new FeatureListItem(70,"Message"));
+//        list.add(new FeatureListItem(90,"Post"));
+//        return list;
+//    }
 
     public void updateFeature(){
 

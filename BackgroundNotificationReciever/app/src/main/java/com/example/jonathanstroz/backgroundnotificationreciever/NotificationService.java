@@ -49,11 +49,14 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn){
         HushNotification notif = new HushNotification(sbn);
-
-       if (notif.getNotifcationCode() != 5) {
+        
+        if(notif.getPriority() == 1){
             notificationManager.cancel(sbn.getTag(), sbn.getId());
             cancelNotification(sbn.getKey());
             sendNotifcation(notif, sbn);
+        }else if(notif.getPriority() == 2){
+            notificationManager.cancel(sbn.getTag(), sbn.getId());
+            cancelNotification(sbn.getKey());
         }
     }
 

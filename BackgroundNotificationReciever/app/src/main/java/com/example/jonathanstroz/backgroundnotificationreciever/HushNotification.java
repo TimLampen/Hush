@@ -2,6 +2,8 @@ package com.example.jonathanstroz.backgroundnotificationreciever;
 import android.app.Notification;
 import android.service.notification.StatusBarNotification;
 
+import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.AppFeaturesHolder;
 import com.google.firebase.database.Exclude;
 
 import java.util.Random;
@@ -121,17 +123,11 @@ public class HushNotification {
         return rows;
     }
     private int setPriority(Notification notification){
-        switch(notification_code){
-            case 1: // Facebook
-                //object
-                // for each in object
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            default:
-                return 4;
-        }
+        AppFeaturesHolder appHolder = MainActivity.mDatabaseHelper.getAppFeatures(notification_code);
+
+        // @TODO Figure out what priority it is
+
+        return 0;
     }
 
     public String getSource(){return source;}

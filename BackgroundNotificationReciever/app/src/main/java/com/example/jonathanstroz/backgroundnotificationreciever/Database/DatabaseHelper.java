@@ -14,7 +14,10 @@ import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Facebook;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Instagram;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Messenger;
+import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Snapchat;
+import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Whatsapp;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.AppFeaturesHolder;
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
 
@@ -351,30 +354,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             case HushNotification.InterceptedNotificationCode.FACEBOOK_MESSENGER_CODE:
                 Messenger.init();
                 break;
-            //
-
+            case HushNotification.InterceptedNotificationCode.SNAPCHAT_CODE:
+                Snapchat.init();
+                break;
+            case HushNotification.InterceptedNotificationCode.WHATSAPP_CODE:
+                Whatsapp.init();
+                break;
+            // Add other apps when supported
         }
     }
 
-    public ArrayList<FeatureListItem> getFeatureList(int id){
+    public Cursor getRawApp(int id){
         String query = "Select * From "+APPLICATION_NAMES[id];
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(query, null);
+        return c;
+    }
 
-        ArrayList<FeatureListItem> fl = new ArrayList<FeatureListItem>();
+    public void closeDB(){
+        this.getWritableDatabase().close();
+    }
+
+    public AppFeaturesHolder getAppFeatures(int id){
+        Cursor c = getRawApp(id);
+        ArrayList<Integer> featureIDs = new ArrayList<Integer>();
+        ArrayList<Integer> importances = new ArrayList<Integer>();
+        ArrayList<String> names = new ArrayList<String>();
 
         if(c.moveToFirst()){
-
             do{
                 int featureID = c.getInt(c.getColumnIndex(KEY_FEATUREID));
                 String featureName = c.getString(c.getColumnIndex(COL_FEATURENAME));
                 int featureImportance = c.getInt(c.getColumnIndex(COL_IMPORTANCE));
+                importances.add(featureImportance);
+                names.add(featureName);
+                featureIDs.add(featureID);
 
-                fl.add(new FeatureListItem(id, featureID, featureImportance, featureName));
             }while(c.moveToNext());
         }
 
-        return fl;
+        AppFeaturesHolder appHolder = new AppFeaturesHolder(id,featureIDs,names,importances);
+        closeDB();
+        return appHolder;
+    }
+
+    public ArrayList<FeatureListItem> getFeatureList(int id){
+        return getAppFeatures(id).getFeatureListItems();
     }
 
     public boolean updateFeature(int appId, int featureId, int importance, String featureName){
@@ -385,6 +410,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COL_FEATURENAME, featureName);
         db.update(APPLICATION_NAMES[appId], cv,KEY_FEATUREID +" = "+featureId, null);
         Log.e("FEATURE UPDATED", "FEATURE ID: "+featureId+" APPID: "+appId+" IMPORTANCE: "+importance);
+        db.close();
         return false;
     }
 

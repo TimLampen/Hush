@@ -1,5 +1,6 @@
 package com.example.jonathanstroz.backgroundnotificationreciever;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 
 import android.app.NotificationChannel;
@@ -71,7 +72,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     public void addToDataset(HushNotification notif){
-        Firebase ref = new Firebase("https://hush-808f8.firebaseio.com/");
+        Firebase ref = new Firebase(getResources().getString(R.string.firebase_url));
         DatabaseNotification c_notif = new DatabaseNotification(notif);
         ref.child("Notifications").push().setValue(c_notif);
     }

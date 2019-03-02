@@ -9,14 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity;
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Facebook;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Instagram;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Messenger;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
 
 import java.util.ArrayList;
 

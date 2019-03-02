@@ -1,4 +1,4 @@
-package com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses;
+package com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses;
 
 public class FeatureListItem {
 

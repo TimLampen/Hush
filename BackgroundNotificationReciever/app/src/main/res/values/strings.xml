@@ -12,4 +12,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="groupname">bucket</string>
+    <string name="firebase_url">https://hush-808f8.firebaseio.com/</string>
 </resources>

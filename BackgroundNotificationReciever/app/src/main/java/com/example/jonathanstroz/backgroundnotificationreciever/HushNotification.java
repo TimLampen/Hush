@@ -121,17 +121,17 @@ public class HushNotification {
         return rows;
     }
     private int setPriority(Notification notification){
-        //Get Priorities | 60%
-        //Get ML Algorithm | 40%
-        // 1 = high
-        // 2 = medium
-        // 3 = low
-        // 4 = bucket
-        // 5 = ignore
-        Random rand = new Random();
-        int randomNum = rand.nextInt((5 - 1) + 1) + 1;
-
-        return 4;
+        switch(notification_code){
+            case 1: // Facebook
+                //object
+                // for each in object
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            default:
+                return 4;
+        }
     }
 
     public String getSource(){return source;}

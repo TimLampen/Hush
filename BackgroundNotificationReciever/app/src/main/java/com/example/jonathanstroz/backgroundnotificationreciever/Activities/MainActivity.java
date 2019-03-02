@@ -38,9 +38,9 @@ import com.example.jonathanstroz.backgroundnotificationreciever.Database.Databas
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
 import com.example.jonathanstroz.backgroundnotificationreciever.NotifBroadcastReciever;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainAdapter;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainViewHolder;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainViewHolder;
 
 import java.util.ArrayList;
 

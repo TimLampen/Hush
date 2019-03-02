@@ -15,8 +15,8 @@ import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Face
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Instagram;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Messenger;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
 
 import java.util.ArrayList;
 

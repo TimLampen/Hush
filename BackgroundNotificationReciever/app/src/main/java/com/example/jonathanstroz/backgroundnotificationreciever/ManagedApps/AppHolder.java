@@ -1,19 +1,24 @@
 package com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps;
 
+import android.content.ContentValues;
+import android.provider.ContactsContract;
 import android.util.Log;
+
+import com.example.jonathanstroz.backgroundnotificationreciever.Database.DatabaseHelper;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AppHolder {
 
     private int id;
     private String name;
-    private ArrayList<Integer> featureImportances;
-    private ArrayList<String> featureNames;
+    private int[] featureImportances;
+    private String[] featureNames;
 
-    public AppHolder(String tempName, int tempID, ArrayList<Integer> fImportances, ArrayList<String> fNames){
-        if(fImportances.size() == fNames.size()) {
+    public AppHolder(String tempName, int tempID, int[] fImportances, String[] fNames){
+        if(fImportances.length == fNames.length) {
             id = tempID;
             name = tempName;
             featureImportances = fImportances;
@@ -32,25 +37,33 @@ public class AppHolder {
         return name;
     }
 
-    public ArrayList<Integer> getFeatureImportances() {
+    public int[] getFeatureImportances() {
         return featureImportances;
     }
 
-    public ArrayList<String> getFeatureNames() {
+    public String[] getFeatureNames() {
         return featureNames;
     }
 
     public String toCreateQuery(){
-        String query = "CREATE TABLE IF NOT EXISTS "+name+" ( FeatureID Integer PRIMARY KEY, FeatureName varchar(100) NOT NULL, Importance Integer DEFAULT 2);"
-                + "INSERT INTO "+ name +" (FeatureID, FeatureName, Importance) VALUES ";
-
-
-        for(int i=0; i<featureNames.size()-1;i++){
-            query += "("+i+", "+featureNames.get(i)+", "+ featureImportances.get(i)+"),";
-        }
-
-        query += "("+(featureNames.size()-1)+", "+featureNames.get(featureNames.size()-1)+", "+ featureImportances.get(featureNames.size()-1)+");";
+        String query = "CREATE TABLE IF NOT EXISTS "+name+" ( "+ DatabaseHelper.KEY_FEATUREID +" Integer PRIMARY KEY, "+ DatabaseHelper.COL_FEATURENAME +" varchar(100) NOT NULL, "+ DatabaseHelper.COL_IMPORTANCE +" Integer DEFAULT 2);";
+               // + "INSERT INTO "+ name +" (FeatureID, FeatureName, Importance) VALUES ";
 
         return query;
     }
+
+    public ArrayList<ContentValues> getInsertValues(){
+        ArrayList<ContentValues> cvs = new ArrayList<ContentValues>();
+
+        for(int i=0; i<featureNames.length;i++){
+            ContentValues vals = new ContentValues();
+            vals.put(DatabaseHelper.KEY_FEATUREID, i);
+            vals.put(DatabaseHelper.COL_FEATURENAME, featureNames[i]);
+            vals.put(DatabaseHelper.COL_IMPORTANCE, featureImportances[i]);
+            cvs.add(vals);
+        }
+
+        return cvs;
+    }
+
 }

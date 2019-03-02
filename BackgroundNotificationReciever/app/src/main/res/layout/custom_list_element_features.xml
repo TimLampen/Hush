@@ -17,11 +17,12 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <!-- Fix max if needed-->
     <SeekBar
         android:id="@+id/featureImportance"
         android:layout_width="151dp"
         android:layout_height="29dp"
+        android:max="4"
         app:layout_constraintBottom_toBottomOf="@+id/featureName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -13,7 +13,9 @@ import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainA
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Facebook;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Instagram;
+import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Messenger;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
+import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
 import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
 
 import java.util.ArrayList;
@@ -61,9 +63,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ACTIVATED = "activated";
     private static final String KEY_FEATURES = "features";
 
+    public static final String KEY_FEATUREID = "FeatureID";
+    public static final String COL_FEATURENAME = "FeatureName";
+    public static final String COL_IMPORTANCE = "Importance";
+
 
     //@TODO Add more user tables
-
     private static final String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ("
             + KEY_SRC + " TEXT NOT NULL, "
             + KEY_TITLE + " TEXT NOT NULL, "
@@ -173,8 +178,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.close();
             return false;
         }
-
-
     }
 
     public boolean checkIfTableCreated(String tableName){
@@ -206,7 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    // @TODO check with johnny
+    // @TODO check with johnny to see if we still need this
     public static String getDb(){
 
         try {
@@ -277,8 +280,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery(query, null);
 
-        c.moveToFirst();
-
         int nameIndex = c.getColumnIndex(KEY_NAME);
         int idIndex = c.getColumnIndex(KEY_ID);
 
@@ -342,12 +343,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void initializeTable(int id){
         switch(id) {
             case HushNotification.InterceptedNotificationCode.FACEBOOK_CODE:
-                Facebook f = new Facebook();
+                Facebook.init();
                 break;
             case HushNotification.InterceptedNotificationCode.INSTAGRAM_CODE:
-                Instagram i = new Instagram();
+                Instagram.init();
                 break;
+            case HushNotification.InterceptedNotificationCode.FACEBOOK_MESSENGER_CODE:
+                Messenger.init();
+                break;
+            //
+
         }
+    }
+
+    public ArrayList<FeatureListItem> getFeatureList(int id){
+        String query = "Select * From "+APPLICATION_NAMES[id];
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(query, null);
+
+        ArrayList<FeatureListItem> fl = new ArrayList<FeatureListItem>();
+
+        if(c.moveToFirst()){
+
+            do{
+                int featureID = c.getInt(c.getColumnIndex(KEY_FEATUREID));
+                String featureName = c.getString(c.getColumnIndex(COL_FEATURENAME));
+                int featureImportance = c.getInt(c.getColumnIndex(COL_IMPORTANCE));
+
+                fl.add(new FeatureListItem(id, featureID, featureImportance, featureName));
+            }while(c.moveToNext());
+        }
+
+        return fl;
+    }
+
+    public boolean updateFeature(int appId, int featureId, int importance, String featureName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_IMPORTANCE, importance);
+        cv.put(KEY_FEATUREID, featureId);
+        cv.put(COL_FEATURENAME, featureName);
+        db.update(APPLICATION_NAMES[appId], cv,KEY_FEATUREID +" = "+featureId, null);
+        Log.e("FEATURE UPDATED", "FEATURE ID: "+featureId+" APPID: "+appId+" IMPORTANCE: "+importance);
+        return false;
     }
 
     public static int getRowCount(){

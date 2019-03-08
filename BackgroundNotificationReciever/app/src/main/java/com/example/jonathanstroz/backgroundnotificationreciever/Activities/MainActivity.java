@@ -38,9 +38,9 @@ import com.example.jonathanstroz.backgroundnotificationreciever.Database.Databas
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
 import com.example.jonathanstroz.backgroundnotificationreciever.NotifBroadcastReciever;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainAdapter;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainViewHolder;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainViewHolder;
 
 import java.util.ArrayList;
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+    public NotifBroadcastReciever notifBroadcastReciever = new NotifBroadcastReciever();
     private ImageView interceptedNotificationImageView;
     private ImageChangeBroadcastReceiver imageChangeBroadcastReceiver;
     private AlertDialog enableNotificationListenerAlertDialog;
@@ -87,7 +87,10 @@ public class MainActivity extends AppCompatActivity {
         notificationManager = NotificationManagerCompat.from(this);
         createNotifcationChannels();
 
-        startService(new Intent(this, BackgroundService.class));
+        //for background service
+        //startService(new Intent(this, BackgroundService.class));
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(notifBroadcastReciever, filter);
         // If the user did not turn the notification listener service on we prompt him to do so
         if(!isNotificationServiceEnabled()){
             enableNotificationListenerAlertDialog = buildNotificationServiceAlertDialog();

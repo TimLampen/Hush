@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
 
 import java.util.ArrayList;
 

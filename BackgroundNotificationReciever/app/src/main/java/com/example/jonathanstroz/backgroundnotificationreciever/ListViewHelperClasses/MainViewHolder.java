@@ -1,4 +1,4 @@
-package com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses;
+package com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses;
 
 import android.widget.ImageView;
 import android.widget.TextView;

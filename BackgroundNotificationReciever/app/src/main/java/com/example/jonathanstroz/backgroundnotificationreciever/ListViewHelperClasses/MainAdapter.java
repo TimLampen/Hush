@@ -1,4 +1,4 @@
-package com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses;
+package com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses;
 
 import android.content.Context;
 import android.provider.Settings;
@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainViewHolder;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

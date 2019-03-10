@@ -6,15 +6,17 @@ public class AppFeaturesHolder {
 
     // add keywords later
     private int appID;
+    private int appImportance;
     private ArrayList<Integer> featureIDs;
     private ArrayList<String> featureNames;
     private ArrayList<Integer> featureImportances;
 
-    public AppFeaturesHolder(int id, ArrayList<Integer> fIDs, ArrayList<String> names, ArrayList<Integer> importances){
+    public AppFeaturesHolder(int id, int importance, ArrayList<Integer> fIDs, ArrayList<String> names, ArrayList<Integer> importances){
         appID = id;
         featureIDs = fIDs;
         featureNames = names;
         featureImportances = importances;
+        appImportance = importance;
     }
 
     public ArrayList<String> getFeatureNames(){
@@ -27,6 +29,10 @@ public class AppFeaturesHolder {
 
     public int getAppID(){
         return appID;
+    }
+
+    public int getAppImportance(){
+        return appImportance;
     }
 
     public ArrayList<FeatureListItem> getFeatureListItems(){

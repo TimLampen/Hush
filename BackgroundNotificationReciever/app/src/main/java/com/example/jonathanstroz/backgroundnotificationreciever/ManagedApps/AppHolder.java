@@ -10,6 +10,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
+/**
+ * Used for the creation of each app table
+ */
 public class AppHolder {
 
     private int id;

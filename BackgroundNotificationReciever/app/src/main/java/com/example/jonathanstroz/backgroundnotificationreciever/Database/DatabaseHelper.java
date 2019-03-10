@@ -86,7 +86,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_APPLICATIONS = "CREATE TABLE IF NOT EXISTS " + TABLE_APPLICATIONS + " ("
             + KEY_ID + " INTEGER, "
             + KEY_NAME + " TEXT NOT NULL, "
-            + KEY_ACTIVATED + " INTEGER); ";
+            + KEY_ACTIVATED + " INTEGER, "
+            + COL_IMPORTANCE + " INTEGER);";
 
     private static final String GET_ACTIVE_APPLICATIONS = "SELECT * FROM " + TABLE_APPLICATIONS + " WHERE "
             + KEY_ACTIVATED + " = 1";
@@ -204,6 +205,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 values.put(KEY_ID, APPLICATION_IDS[i]);
                 values.put(KEY_NAME, APPLICATION_NAMES[i]);
                 values.put(KEY_ACTIVATED, 0);
+                values.put(COL_IMPORTANCE, 5);
                 dbWrite.insert(TABLE_APPLICATIONS, null, values);
             }
             dbRead.close();
@@ -212,36 +214,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    // @TODO check with johnny to see if we still need this
-    public static String getDb(){
-
-        try {
-        String selectQuery = "SELECT  * FROM " + TABLE_NOTIFICATION;
-
-        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        String list = "";
-        if (cursor.moveToFirst()){
-            while(cursor.moveToNext()){
-                String source = cursor.getString(cursor.getColumnIndex(KEY_SRC));
-                String title = cursor.getString(cursor.getColumnIndex(KEY_TITLE));
-                String message = cursor.getString(cursor.getColumnIndex(KEY_MSG));
-                String time = cursor.getString(cursor.getColumnIndex(KEY_TIME));
-                String reason = cursor.getString(cursor.getColumnIndex(KEY_DISMISS));
-                list += source + "\t" + title + "\t" + message + "\t" + time + "\t" + reason + "\n";
-            }
-        }
-        cursor.close();
-        // close db connection
-        db.close();
-
-        // return notes list
-        return list;
-        }catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
 
     public ArrayList<Integer> getActivatedAppIds(){
         ArrayList<Integer> apps = new ArrayList<Integer>();
@@ -293,13 +265,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do{
                 int appID = c.getInt(idIndex);
                 int imageID;
-                if(appID <= NUMBER_OF_APPLICATIONS ) {
-                    imageID = APPLICATION_IMAGES[appID];
+                if(appID != HushNotification.InterceptedNotificationCode.HUSH_CODE && appID != HushNotification.InterceptedNotificationCode.OTHER_NOTIFICATIONS_CODE){
+                    if(appID <= NUMBER_OF_APPLICATIONS ) {
+                        imageID = APPLICATION_IMAGES[appID];
+                    }
+                    else{
+                        imageID = R.drawable.hush_logo_full_no_background;
+                    }
+                    apps.add(new MainListItem(c.getString(nameIndex), imageID, appID));
                 }
-                else{
-                    imageID = R.drawable.hush_logo_full_no_background;
-                }
-                apps.add(new MainListItem(c.getString(nameIndex), imageID, appID));
             }while(c.moveToNext());
         }
 
@@ -375,8 +349,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.getWritableDatabase().close();
     }
 
+    public int getAppImportance(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("Select "+ COL_IMPORTANCE +" from "+ TABLE_APPLICATIONS +" Where "+ KEY_ID +" = "+id,null);
+        c.moveToFirst();
+        return c.getInt(c.getColumnIndex(COL_IMPORTANCE));
+    }
+
     public AppFeaturesHolder getAppFeatures(int id){
         Cursor c = getRawApp(id);
+        int appImportance = getAppImportance(id);
+        Log.e("APP IMPORTANCE",""+id);
         ArrayList<Integer> featureIDs = new ArrayList<Integer>();
         ArrayList<Integer> importances = new ArrayList<Integer>();
         ArrayList<String> names = new ArrayList<String>();
@@ -392,17 +375,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             }while(c.moveToNext());
         }
-
-        AppFeaturesHolder appHolder = new AppFeaturesHolder(id,featureIDs,names,importances);
+        //String tempName, int tempID, int tempImportance, ArrayList<Integer> fIDs, ArrayList<Integer> fImportances, ArrayList<String> fNames
+        AppFeaturesHolder appHolder = new AppFeaturesHolder(id, appImportance, featureIDs, names, importances);
         closeDB();
         return appHolder;
     }
 
-    public ArrayList<FeatureListItem> getFeatureList(int id){
-        return getAppFeatures(id).getFeatureListItems();
-    }
-
-    public boolean updateFeature(int appId, int featureId, int importance, String featureName){
+    public void updateFeature(int appId, int featureId, int importance, String featureName){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_IMPORTANCE, importance);
@@ -411,7 +390,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(APPLICATION_NAMES[appId], cv,KEY_FEATUREID +" = "+featureId, null);
         Log.e("FEATURE UPDATED", "FEATURE ID: "+featureId+" APPID: "+appId+" IMPORTANCE: "+importance);
         db.close();
-        return false;
+    }
+
+    public void updateImportance(int id, int importance){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_ID, id);
+        cv.put(COL_IMPORTANCE, importance);
+        cv.put(KEY_ACTIVATED, 1);
+        cv.put(KEY_NAME, APPLICATION_NAMES[id]);
+
+        db.update(TABLE_APPLICATIONS, cv,KEY_ID +" = "+id, null);
+        Log.e("IMPORTANCE UPDATED", "APP ID: "+id+" IMPORTANCE: "+importance);
+        db.close();
     }
 
     public static int getRowCount(){

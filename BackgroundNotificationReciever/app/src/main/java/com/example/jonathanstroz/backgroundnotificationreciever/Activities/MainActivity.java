@@ -111,8 +111,11 @@ public class MainActivity extends AppCompatActivity {
         if(!FirebaseApp.getApps(this).isEmpty()) {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
+    }
 
-        // check Database for app initiated flag
+    @Override
+    protected void onResume(){
+        super.onResume();
         if(!mDatabaseHelper.isInitialized()){
             setContentView(R.layout.loading_screen);
         }

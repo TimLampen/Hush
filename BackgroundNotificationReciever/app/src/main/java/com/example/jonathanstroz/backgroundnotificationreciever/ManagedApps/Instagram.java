@@ -1,7 +1,7 @@
 package com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps;
 
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;

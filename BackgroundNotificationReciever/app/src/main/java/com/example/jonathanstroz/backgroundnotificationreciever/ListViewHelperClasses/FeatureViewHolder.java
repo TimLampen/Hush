@@ -1,4 +1,4 @@
-package com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses;
+package com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses;
 
 import android.widget.SeekBar;
 import android.widget.TextView;

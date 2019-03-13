@@ -11,11 +11,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundMode;
 import com.example.jonathanstroz.backgroundnotificationreciever.Database.DatabaseHelper;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainAdapter;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainViewHolder;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainViewHolder;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class SetupActivity extends AppCompatActivity {
         Button b  = (Button) findViewById(R.id.activationButton);
         ListView listV = findViewById(R.id.setupListView);
 
+
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +71,7 @@ public class SetupActivity extends AppCompatActivity {
                 else {
                     appsToActivate.add(holder.getAppId());
                     Log.e("APP ACTIVATED", holder.getAppName()+"");
-                    ImageView symbol = (ImageView) view.findViewById(R.id.sign);
+                    ImageView symbol = (ImageView) view. findViewById(R.id.sign);
                     symbol.setImageResource(R.drawable.minus_sign);
                 }
             }

@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -28,8 +29,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
 
 
+import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundMode;
 import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundService;
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
@@ -38,9 +41,9 @@ import com.example.jonathanstroz.backgroundnotificationreciever.Database.Databas
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
 import com.example.jonathanstroz.backgroundnotificationreciever.NotifBroadcastReciever;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainAdapter;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainListItem;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.MainViewHolder;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainViewHolder;
 
 import java.util.ArrayList;
 
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<MainListItem> homeMainListItems;
     private Button loadingScreenButton;
     private View.OnClickListener appSelector;
+    private SeekBar mainSeekBar;
 
     //maybe this works
 
@@ -115,7 +119,39 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             loadApp();
+            mainSeekBar = (SeekBar)this.findViewById(R.id.seekBar);
+
+            mainSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    System.out.println(progress + " / progress");
+                    BackgroundMode.HUSH.apply(MainActivity.this);
+
+                    switch (progress){
+                        case 0:
+                            BackgroundMode.HUSH.apply(MainActivity.this);
+                            break;
+                        case 1:
+                            BackgroundMode.DAY.apply(MainActivity.this);
+                            break;
+                        case 2:
+                            BackgroundMode.SOCIAL.apply(MainActivity.this);
+                            break;
+                        case 3:
+                            BackgroundMode.STUDY.apply(MainActivity.this);
+                            break;
+                    }
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) { }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
         }
+
     }
 
     @Override

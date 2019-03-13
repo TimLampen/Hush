@@ -5,7 +5,7 @@ import android.database.DatabaseUtils;
 import android.util.Log;
 
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
 import com.example.jonathanstroz.backgroundnotificationreciever.NotificationService;
 
 import java.util.ArrayList;

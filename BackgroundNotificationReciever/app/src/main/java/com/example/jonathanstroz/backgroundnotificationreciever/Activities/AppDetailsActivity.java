@@ -8,8 +8,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureAdapter;
-import com.example.jonathanstroz.backgroundnotificationreciever.listViewHelperClasses.FeatureListItem;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureAdapter;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
 
 import java.util.ArrayList;
 

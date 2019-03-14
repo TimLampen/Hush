@@ -2,8 +2,12 @@ package com.example.jonathanstroz.backgroundnotificationreciever;
 import android.app.Notification;
 import android.service.notification.StatusBarNotification;
 
+import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.AppFeaturesHolder;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.AppFeaturesHolder;
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static com.example.jonathanstroz.backgroundnotificationreciever.Database.DatabaseHelper.getRowCount;
@@ -15,7 +19,7 @@ public class HushNotification {
 
     private int notification_code = 0;
     private String source;
-    private int priority;
+    private double priority = 0;
     private String message;
     private long time = 0;
     private String title;
@@ -34,7 +38,6 @@ public class HushNotification {
         title = notification.extras.getCharSequence(Notification.EXTRA_TITLE).toString();
         source = sbn.getPackageName();
         notification_code = getAppCode(source);
-        priority = setPriority(notification);
         id = sbn.getId();
         code = getAppCode(source);
     }
@@ -78,6 +81,15 @@ public class HushNotification {
         }
     }
 
+    public static final class Modes {
+        public static final int HUSH_MODE = 0;
+        public static final int WORK_MODE = 1;
+        public static final int MEETING_MODE = 2;
+        public static final int SOCIAL_MODE = 3;
+
+        public static final String[] MODE_NAMES = {"Hush", "Work", "Meeting", "Social"};
+    }
+
     public static final class ApplicationImages {
         public static final int FACEBOOK_IMAGE = R.drawable.facebook_logo;
         public static final int FACEBOOK_IMAGE_SMALL = R.drawable.facebook_logo_small;
@@ -96,8 +108,7 @@ public class HushNotification {
     }
 
     private int getAppCode(String source){
-        if(source.equals(ApplicationPackageNames.FACEBOOK_PACK_NAME)
-                || source.equals(ApplicationPackageNames.FACEBOOK_MESSENGER_PACK_NAME)){
+        if(source.equals(ApplicationPackageNames.FACEBOOK_PACK_NAME)){
             return(InterceptedNotificationCode.FACEBOOK_CODE);
         }
         else if(source.equals(ApplicationPackageNames.INSTAGRAM_PACK_NAME)){
@@ -111,38 +122,60 @@ public class HushNotification {
 
         }else if(source.equals(ApplicationPackageNames.HUSH_PACK_NAME)){
             return(InterceptedNotificationCode.HUSH_CODE);
+
+        }else if(source.equals(ApplicationPackageNames.FACEBOOK_MESSENGER_PACK_NAME)){
+            return(InterceptedNotificationCode.FACEBOOK_MESSENGER_CODE);
         }
         else{
             return(InterceptedNotificationCode.OTHER_NOTIFICATIONS_CODE);
         }
     }
 
-    public int getPriority(){
+    public double getPriority(){
         return priority;
     }
 
     public int getRow(){
         return rows;
     }
-    private int setPriority(Notification notification){
-        //Get Priorities | 60%
-        //Get ML Algorithm | 40%
-        // 1 = high
-        // 2 = medium
-        // 3 = low
-        // 4 = bucket
-        // 5 = ignore
-        Random rand = new Random();
-        int randomNum = rand.nextInt((5 - 1) + 1) + 1;
 
-        return 4;
+    public void setPriority(HushNotification notification){
+        //make sure it is one of the apps that is set up with the user
+        AppFeaturesHolder appHolder = MainActivity.mDatabaseHelper.getAppFeatures(notification_code);
+        ArrayList<String> features = appHolder.getFeatureNames();
+        ArrayList<Integer> feature_importance = appHolder.getFeatureImportances();
+        int feature_chosen_importance = -1;
+        String title = notification.getTitle();
+        String text = notification.getMessage();
+
+        for (int i = 1; i < features.size();i++){
+            if(title.contains(features.get(i)) ||  text.contains(features.get(i))){
+                feature_chosen_importance = feature_importance.get(i);
+            }
+        }
+
+        int app_importance = feature_importance.get(0);
+
+        if ( feature_chosen_importance == -1){
+            feature_chosen_importance = app_importance;
+        }
+
+        // talk about possibility of modes
+
+        //App importance set to id 1
+
+        priority = ((feature_chosen_importance + app_importance)/10) * 3;
+
+        if(notification_code == InterceptedNotificationCode.OTHER_NOTIFICATIONS_CODE){
+            priority = -1;
+        }
     }
 
     public String getSource(){return source;}
     public long getTime(){
         return time;
     }
-    public String getMessage(){
+        public String getMessage(){
         return message;
     }
     public int getNotifcationCode(){

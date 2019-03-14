@@ -48,13 +48,13 @@
         android:textAppearance="@style/AppTheme.ListAppContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
+        app:layout_constraintTop_toBottomOf="@+id/importanceBar" />
 
     <SeekBar
-        android:id="@+id/seekBar2"
+        android:id="@+id/importanceBar"
         android:layout_width="184dp"
         android:layout_height="24dp"
-        android:progressDrawable="@drawable/progress"
+        android:max="4"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -68,7 +68,7 @@
         android:layout_marginTop="24dp"
         android:text="Importance"
         android:textAppearance="@style/AppTheme.ListAppContent"
-        app:layout_constraintEnd_toStartOf="@+id/seekBar2"
+        app:layout_constraintEnd_toStartOf="@+id/importanceBar"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appName" />

@@ -58,13 +58,11 @@ public class SetupActivity extends AppCompatActivity {
 
                 if(appsToActivate.indexOf(holder.getAppId()) > -1){
                     appsToActivate.remove(appsToActivate.indexOf(holder.getAppId()));
-                    Log.e("APP DEACTIVATED", holder.getAppName()+"");
                     ImageView symbol = (ImageView) view.findViewById(R.id.sign);
                     symbol.setImageResource(R.drawable.plus_sign);
                 }
                 else {
                     appsToActivate.add(holder.getAppId());
-                    Log.e("APP ACTIVATED", holder.getAppName()+"");
                     ImageView symbol = (ImageView) view.findViewById(R.id.sign);
                     symbol.setImageResource(R.drawable.minus_sign);
                 }

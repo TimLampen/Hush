@@ -36,6 +36,7 @@ public abstract class Application {
         String query = a.toCreateQuery();
         db.execSQL(query);
         insertFeatures(a.getName(), a.getInsertValues(), db);
+
         db.close();
         return false;
     }

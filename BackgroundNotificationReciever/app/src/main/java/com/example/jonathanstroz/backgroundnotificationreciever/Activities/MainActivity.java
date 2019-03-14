@@ -160,7 +160,11 @@ public class MainActivity extends AppCompatActivity {
 
         modeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {}
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int newMode = seekBar.getProgress();
+                ModeHolder mode = (ModeHolder) seekBar.getTag();
+                mode.setDisplayMode(newMode);
+            }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
 
@@ -168,9 +172,9 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 ModeHolder mode = (ModeHolder) seekBar.getTag();
                 int newMode = seekBar.getProgress();
-                if(newMode != mode.getModeNumber()){
+                if(newMode != mode.getDeepModeNumber()){
+                    mode.setDatabaseMode(newMode);
                     mDatabaseHelper.updateMode(newMode);
-                    mode.setMode(newMode);
                 }
             }
         });

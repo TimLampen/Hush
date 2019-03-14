@@ -16,10 +16,7 @@ import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Mess
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Snapchat;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Whatsapp;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
-<<<<<<< HEAD
-=======
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.AppFeaturesHolder;
->>>>>>> Priority
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
 

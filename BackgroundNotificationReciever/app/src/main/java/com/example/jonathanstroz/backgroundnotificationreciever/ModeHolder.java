@@ -4,27 +4,33 @@ import android.widget.TextView;
 
 public class ModeHolder {
 
-    private int modeNumber;
+    private int displayModeNum;
+    private int databaseModeNum;
     private String modeName;
     private TextView modeDisplay;
 
     public ModeHolder(int mode, TextView tv){
         modeDisplay = tv;
-        this.setMode(mode);
+        this.setDisplayMode(mode);
+        this.setDatabaseMode(mode);
     }
 
-    public int getModeNumber() {
-        return modeNumber;
+    public int getDeepModeNumber() {
+        return databaseModeNum;
     }
 
     public String getModeName() {
         return modeName;
     }
 
-    public void setMode(int modeNumber) {
-        this.modeNumber = modeNumber;
+    public void setDisplayMode(int modeNumber) {
+        this.displayModeNum = modeNumber;
         this.modeName = HushNotification.Modes.MODE_NAMES[modeNumber];
         modeDisplay.setText(modeName);
+    }
+
+    public void setDatabaseMode(int modeNumber){
+        this.databaseModeNum = modeNumber;
     }
 
 }

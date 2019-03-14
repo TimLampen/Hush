@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity;
 import com.example.jonathanstroz.backgroundnotificationreciever.HushNotification;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Facebook;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Instagram;
@@ -17,7 +16,9 @@ import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Mess
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Snapchat;
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Whatsapp;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
+
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.AppFeaturesHolder;
+
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
 

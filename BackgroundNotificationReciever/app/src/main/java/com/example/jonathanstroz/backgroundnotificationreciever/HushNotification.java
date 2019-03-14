@@ -91,14 +91,18 @@ public class HushNotification {
     }
 
     public static final class ApplicationImages {
-        public static final int FACEBOOK_IMAGE_EXTRA_SMALL = R.drawable.facebook_logo_extra_small;
+        public static final int FACEBOOK_IMAGE = R.drawable.facebook_logo;
         public static final int FACEBOOK_IMAGE_SMALL = R.drawable.facebook_logo_small;
-        public static final int INSTAGRAM_IMAGE_EXTRA_SMALL = R.drawable.instagram_logo_extra_small;
+        public static final int INSTAGRAM_IMAGE = R.drawable.instagram_logo;
         public static final int INSTAGRAM_IMAGE_SMALL = R.drawable.instagram_logo_small;
+        public static final int WHATSAPP_IMAGE= R.drawable.whatsapp_logo;
+        public static final int SNAPCHAT_IMAGE= R.drawable.snapchat_logo;
+        public static final int FACEBOOK_MESSENGER_IMAGE= R.drawable.messenger_logo;
+
         public static final int DEFAULT_IMAGE = R.drawable.hush_logo_full_no_background;
 
         public static int[] getApplicationImages() {
-            int[] temp = {DEFAULT_IMAGE, FACEBOOK_IMAGE_EXTRA_SMALL, DEFAULT_IMAGE, INSTAGRAM_IMAGE_EXTRA_SMALL, DEFAULT_IMAGE, DEFAULT_IMAGE, DEFAULT_IMAGE};
+            int[] temp = {DEFAULT_IMAGE, FACEBOOK_IMAGE, WHATSAPP_IMAGE, INSTAGRAM_IMAGE, SNAPCHAT_IMAGE, DEFAULT_IMAGE, FACEBOOK_MESSENGER_IMAGE};
             return temp;
         }
     }

@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.AppFeaturesHolder;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureAdapter;
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
@@ -18,6 +20,7 @@ public class AppDetailsActivity extends AppCompatActivity {
     private int appLogo;
     private String appName;
     private int appId;
+    private SeekBar importanceBar;
 
     private TextView nameView;
     private ImageView logoView;
@@ -29,7 +32,7 @@ public class AppDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
-
+        importanceBar = (SeekBar) this.findViewById(R.id.importanceBar);
         init(this.getIntent());
     }
 
@@ -44,31 +47,45 @@ public class AppDetailsActivity extends AppCompatActivity {
         logoView.setImageResource(appLogo);
         nameView.setText(appName);
 
-        loadFeatures();
+        loadApp();
     }
 
-    private void loadFeatures(){
+    private void loadApp() {
 
-        featureListView = (ListView)findViewById(R.id.featureView);
+        featureListView = (ListView) findViewById(R.id.featureView);
 
-        // @TODO encorporate sql loading
-        features = MainActivity.mDatabaseHelper.getFeatureList(appId);
+        AppFeaturesHolder details = MainActivity.mDatabaseHelper.getAppFeatures(appId);
+
+        features = details.getFeatureListItems();
+        int[] importanceHolder = {details.getAppID(),details.getAppImportance()};
+        importanceBar.setTag(importanceHolder);
+        importanceBar.setProgress(details.getAppImportance());
+        importanceBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int[] importanceHolder = (int[])seekBar.getTag();
+                int id =  importanceHolder[0];
+                int importance = importanceHolder[1];
+
+                if(importance != seekBar.getProgress()) {
+                    MainActivity.mDatabaseHelper.updateImportance(id, seekBar.getProgress());
+                    int[] newImportance = {id, seekBar.getProgress()};
+                    seekBar.setTag(newImportance);
+                }
+            }
+        });
 
         FeatureAdapter adapter = new FeatureAdapter(this, R.layout.custom_list_element_features, features);
         featureListView.setAdapter(adapter);
-    }
-
-//    public ArrayList<FeatureListItem> getList(){
-//
-//        ArrayList<FeatureListItem> list = new ArrayList<FeatureListItem>();
-//        list.add(new FeatureListItem(10,"Event"));
-//        list.add(new FeatureListItem(60,"Birthday"));
-//        list.add(new FeatureListItem(70,"Message"));
-//        list.add(new FeatureListItem(90,"Post"));
-//        return list;
-//    }
-
-    public void updateFeature(){
-
     }
 }

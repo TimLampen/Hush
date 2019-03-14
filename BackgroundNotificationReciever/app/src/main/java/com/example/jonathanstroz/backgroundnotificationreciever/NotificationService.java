@@ -50,11 +50,15 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn){
         HushNotification notif = new HushNotification(sbn);
-
-       if (notif.getNotifcationCode() != 5) {
+        notif.setPriority(notif);
+        double test = notif.getPriority();
+        if(notif.getPriority() > 0.5 && notif.getPriority() < 4 ){
             notificationManager.cancel(sbn.getTag(), sbn.getId());
             cancelNotification(sbn.getKey());
             sendNotifcation(notif, sbn);
+        }else if(notif.getPriority() < 0.5 && notif.getPriority() > 0.0){
+            notificationManager.cancel(sbn.getTag(), sbn.getId());
+            cancelNotification(sbn.getKey());
         }
     }
 
@@ -63,8 +67,8 @@ public class NotificationService extends NotificationListenerService {
         //https://developer.android.com/reference/android/service/notification/NotificationListenerService.html#REASON_LISTENER_CANCEL
         Log.e("CHECK","We reached here");
         HushNotification notif = new HushNotification(sbn);
+
         notif.setCancelReason(reason);
-    //test
         if(notif.getCancelReason() != 0) {
             addToDataset(notif);
 
@@ -80,16 +84,17 @@ public class NotificationService extends NotificationListenerService {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendNotifcation(HushNotification notif, StatusBarNotification sbn){
         Notification notification = notif.getNotification();
-        if (notif.getPriority() == 4){
-            notification.priority = Notification.PRIORITY_LOW;
-            Notification notificationBuild = recoverBuilder(this, notification)
-                    .setChannelId("bucket")
-                    .build();
-            int id = notif.getId();
-            String tag = sbn.getTag();
 
-            notificationManager.notify(tag, id, notificationBuild);
-        }
+        notification.priority = Notification.PRIORITY_LOW;
+        Notification notificationBuild = recoverBuilder(this, notification)
+                .setChannelId("bucket")
+                .build();
+        int id = notif.getId();
+        String tag = sbn.getTag();
+
+        notificationManager.notify(tag, id, notificationBuild);
+
+
     }
 
 }

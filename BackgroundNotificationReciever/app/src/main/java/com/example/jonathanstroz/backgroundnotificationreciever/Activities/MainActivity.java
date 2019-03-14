@@ -28,9 +28,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 
 import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundService;
+import com.example.jonathanstroz.backgroundnotificationreciever.ModeHolder;
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<MainListItem> homeMainListItems;
     private Button loadingScreenButton;
     private View.OnClickListener appSelector;
+    private SeekBar modeBar;
+    private TextView modeDisplay;
 
     //maybe this works
 
@@ -131,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupUser(View v){
-        Log.e("XXXX","method has been run");
         if(!mDatabaseHelper.isInitialized()) {
             Intent i = new Intent(this, SetupActivity.class); // @TODO check use of activity for this, back arrow may be difficult
             startActivity(i);
@@ -142,11 +146,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadApp(){
-        // @TODO load data from sql Database
         homeMainListItems = getList();
         setContentView(R.layout.main_screen);
 
         contentListView = (ListView) this.findViewById(R.id.contentListView);
+        modeDisplay = (TextView) this.findViewById(R.id.modeDisplay);
+        Log.e("DISPLAY MODE", ""+modeDisplay);
+        modeBar = (SeekBar) this.findViewById(R.id.modeSeekBar);
+        int modeNumber = mDatabaseHelper.getMode();
+        ModeHolder holder = new ModeHolder(modeNumber, modeDisplay);
+        modeBar.setTag(holder);
+        modeBar.setProgress(modeNumber);
+
+        modeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                ModeHolder mode = (ModeHolder) seekBar.getTag();
+                int newMode = seekBar.getProgress();
+                if(newMode != mode.getModeNumber()){
+                    mDatabaseHelper.updateMode(newMode);
+                    mode.setMode(newMode);
+                }
+            }
+        });
 
         contentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

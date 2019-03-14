@@ -81,6 +81,15 @@ public class HushNotification {
         }
     }
 
+    public static final class Modes {
+        public static final int HUSH_MODE = 0;
+        public static final int WORK_MODE = 1;
+        public static final int MEETING_MODE = 2;
+        public static final int SOCIAL_MODE = 3;
+
+        public static final String[] MODE_NAMES = {"Hush", "Work", "Meeting", "Social"};
+    }
+
     public static final class ApplicationImages {
         public static final int FACEBOOK_IMAGE_EXTRA_SMALL = R.drawable.facebook_logo_extra_small;
         public static final int FACEBOOK_IMAGE_SMALL = R.drawable.facebook_logo_small;

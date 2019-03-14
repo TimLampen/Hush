@@ -70,6 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_FEATURENAME = "FeatureName";
     public static final String COL_IMPORTANCE = "Importance";
 
+    public static final String COL_MODE = "Mode";
 
     //@TODO Add more user tables
     private static final String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ("
@@ -81,7 +82,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_USERDATA = "CREATE TABLE IF NOT EXISTS " + TABLE_USERINFO + " ("
             + KEY_INIT + " INTEGER NOT NULL, "
-            + KEY_DEVICEID + " INTEGER NOT NULL);";
+            + KEY_DEVICEID + " INTEGER NOT NULL, "
+            + COL_MODE + " INTEGER NOT NULL);";
 
     private static final String CREATE_TABLE_APPLICATIONS = "CREATE TABLE IF NOT EXISTS " + TABLE_APPLICATIONS + " ("
             + KEY_ID + " INTEGER, "
@@ -90,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COL_IMPORTANCE + " INTEGER);";
 
     private static final String GET_ACTIVE_APPLICATIONS = "SELECT * FROM " + TABLE_APPLICATIONS + " WHERE "
-            + KEY_ACTIVATED + " = 1";
+            + KEY_ACTIVATED + " = 1;";
 
     private static final String GET_INACTIVE_APPLICATIONS = "SELECT * FROM " + TABLE_APPLICATIONS + " WHERE "
             + KEY_ACTIVATED + " = 0";
@@ -174,14 +176,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ContentValues userInfoCV = new ContentValues();
                 userInfoCV.put(KEY_INIT, 0);
                 userInfoCV.put(KEY_DEVICEID, Settings.Secure.getString(dbhContext.getContentResolver(), Settings.Secure.ANDROID_ID)); // TODO
-
-                Log.e("USERINFOUPDATE", userInfoCV.toString());
+                userInfoCV.put(COL_MODE, 2);
                 writeDB.insert(TABLE_USERINFO,null,userInfoCV);
                 writeDB.close();
             }
             db.close();
             return false;
         }
+    }
+
+    public boolean isAppInitialized(int id){
+        return checkIfTableCreated(APPLICATION_NAMES[id]);
     }
 
     public boolean checkIfTableCreated(String tableName){
@@ -257,9 +262,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         int nameIndex = c.getColumnIndex(KEY_NAME);
         int idIndex = c.getColumnIndex(KEY_ID);
-
-        Log.e("QUERY",query);
-        Log.e("CURSOR OUTPUT",DatabaseUtils.dumpCursorToString(c));
 
         if(c.moveToFirst()){
             do{
@@ -359,7 +361,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public AppFeaturesHolder getAppFeatures(int id){
         Cursor c = getRawApp(id);
         int appImportance = getAppImportance(id);
-        Log.e("APP IMPORTANCE",""+id);
         ArrayList<Integer> featureIDs = new ArrayList<Integer>();
         ArrayList<Integer> importances = new ArrayList<Integer>();
         ArrayList<String> names = new ArrayList<String>();
@@ -388,7 +389,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_FEATUREID, featureId);
         cv.put(COL_FEATURENAME, featureName);
         db.update(APPLICATION_NAMES[appId], cv,KEY_FEATUREID +" = "+featureId, null);
-        Log.e("FEATURE UPDATED", "FEATURE ID: "+featureId+" APPID: "+appId+" IMPORTANCE: "+importance);
         db.close();
     }
 
@@ -401,7 +401,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(KEY_NAME, APPLICATION_NAMES[id]);
 
         db.update(TABLE_APPLICATIONS, cv,KEY_ID +" = "+id, null);
-        Log.e("IMPORTANCE UPDATED", "APP ID: "+id+" IMPORTANCE: "+importance);
+        db.close();
+    }
+
+    public int getMode(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("Select "+COL_MODE+" From "+TABLE_USERINFO+";",null);
+        c.moveToFirst();
+        int mode = c.getInt(c.getColumnIndex(COL_MODE));
+        db.close();
+        return mode;
+    }
+
+    public void updateMode(int newMode){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_MODE, newMode);
+
+        db.update(TABLE_USERINFO, cv, null, null);
         db.close();
     }
 

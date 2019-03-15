@@ -17,6 +17,7 @@ import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Snap
 import com.example.jonathanstroz.backgroundnotificationreciever.ManagedApps.Whatsapp;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.AppFeaturesHolder;
+import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;
 
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.FeatureListItem;
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainListItem;

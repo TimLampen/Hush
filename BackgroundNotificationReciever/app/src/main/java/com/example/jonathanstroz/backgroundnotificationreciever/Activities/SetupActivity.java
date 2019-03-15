@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundMode;
 import com.example.jonathanstroz.backgroundnotificationreciever.Database.DatabaseHelper;
 import com.example.jonathanstroz.backgroundnotificationreciever.R;
 import com.example.jonathanstroz.backgroundnotificationreciever.ListViewHelperClasses.MainAdapter;
@@ -43,6 +44,7 @@ public class SetupActivity extends AppCompatActivity {
 
         Button b  = (Button) findViewById(R.id.activationButton);
         ListView listV = findViewById(R.id.setupListView);
+
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override

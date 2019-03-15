@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -32,6 +33,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 
+import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundMode;
 import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundService;
 import com.example.jonathanstroz.backgroundnotificationreciever.ModeHolder;
 import com.firebase.client.Firebase;
@@ -126,7 +128,39 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             loadApp();
+            mainSeekBar = (SeekBar)this.findViewById(R.id.seekBar);
+
+            mainSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    System.out.println(progress + " / progress");
+                    BackgroundMode.HUSH.apply(MainActivity.this);
+
+                    switch (progress){
+                        case 0:
+                            BackgroundMode.HUSH.apply(MainActivity.this);
+                            break;
+                        case 1:
+                            BackgroundMode.DAY.apply(MainActivity.this);
+                            break;
+                        case 2:
+                            BackgroundMode.SOCIAL.apply(MainActivity.this);
+                            break;
+                        case 3:
+                            BackgroundMode.STUDY.apply(MainActivity.this);
+                            break;
+                    }
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) { }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
         }
+
     }
 
     @Override

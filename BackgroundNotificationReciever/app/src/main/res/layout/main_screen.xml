@@ -16,7 +16,7 @@
         app:layout_constraintGuide_begin="120dp" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        android:id="@+id/variableHeader"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/header"
@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/variableHeader"
         app:layout_constraintVertical_bias="0.0" />
 
 

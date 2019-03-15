@@ -168,19 +168,20 @@ public class MainActivity extends AppCompatActivity {
         modeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                ModeHolder holder = (ModeHolder) seekBar.getTag();
+                holder.setDisplayMode(progress);
                 switch (progress){
                     case 0:
-                        //BackgroundMode.HUSH.update(modeDisplay);
+                        BackgroundMode.HUSH.update(holder.getModeDisplay(),holder.getHeaderView());
                         break;
                     case 1:
-                     //   BackgroundMode.DAY.apply(MainActivity.this);
+                        BackgroundMode.WORK.update(holder.getModeDisplay(),holder.getHeaderView());
                         break;
                     case 2:
-                     //   BackgroundMode.SOCIAL.apply(MainActivity.this);
+                        BackgroundMode.SOCIAL.update(holder.getModeDisplay(),holder.getHeaderView());
                         break;
                     case 3:
-                     //   BackgroundMode.STUDY.apply(MainActivity.this);
+                        BackgroundMode.STUDY.update(holder.getModeDisplay(),holder.getHeaderView());
                         break;
                 }
             }
@@ -189,10 +190,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                ModeHolder mode = (ModeHolder) seekBar.getTag();
+                ModeHolder holder = (ModeHolder) seekBar.getTag();
                 int newMode = seekBar.getProgress();
-                if(newMode != mode.getDeepModeNumber()){
-                    mode.setDatabaseMode(newMode);
+                if(newMode != holder.getDeepModeNumber()){
+                    holder.setDatabaseMode(newMode);
                     mDatabaseHelper.updateMode(newMode);
                 }
             }

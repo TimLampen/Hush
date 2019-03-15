@@ -8,10 +8,10 @@ import android.widget.TextView;
 import com.example.jonathanstroz.backgroundnotificationreciever.Activities.MainActivity;
 
 public enum BackgroundMode {
-    HUSH("Hush", "#000000", "#000000"),
+    HUSH("Hush", "#000000", "#ffffff"),
     STUDY("Study", "#BCC4D6", "#000000"),
     SOCIAL("Social", "#FFCA28", "#000000"),
-    WORK("Work", "#071C46", "");
+    WORK("Work", "#071C46", "#ffffff");
 
 
     private final String title, colorPrimary, titleColor;

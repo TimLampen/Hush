@@ -128,37 +128,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             loadApp();
-            modeBar = this.findViewById(R.id.modeSeekBar);
-
-            modeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    System.out.println(progress + " / progress");
-                    BackgroundMode.HUSH.apply(MainActivity.this);
-
-                    switch (progress){
-                        case 0:
-                            BackgroundMode.HUSH.apply(MainActivity.this);
-                            break;
-                        case 1:
-                            BackgroundMode.DAY.apply(MainActivity.this);
-                            break;
-                        case 2:
-                            BackgroundMode.SOCIAL.apply(MainActivity.this);
-                            break;
-                        case 3:
-                            BackgroundMode.STUDY.apply(MainActivity.this);
-                            break;
-                    }
-                }
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) { }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                }
-            });
         }
 
     }
@@ -195,9 +164,21 @@ public class MainActivity extends AppCompatActivity {
         modeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int newMode = seekBar.getProgress();
-                ModeHolder mode = (ModeHolder) seekBar.getTag();
-                mode.setDisplayMode(newMode);
+
+                switch (progress){
+                    case 0:
+                        //BackgroundMode.HUSH.update(modeDisplay);
+                        break;
+                    case 1:
+                     //   BackgroundMode.DAY.apply(MainActivity.this);
+                        break;
+                    case 2:
+                     //   BackgroundMode.SOCIAL.apply(MainActivity.this);
+                        break;
+                    case 3:
+                     //   BackgroundMode.STUDY.apply(MainActivity.this);
+                        break;
+                }
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}

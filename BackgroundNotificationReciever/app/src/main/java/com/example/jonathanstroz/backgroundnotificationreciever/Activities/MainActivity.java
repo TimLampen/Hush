@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         modeBar = (SeekBar) this.findViewById(R.id.modeSeekBar);
 
         int modeNumber = mDatabaseHelper.getMode();
+        switchBackgroundMode(modeNumber, modeDisplay, headerConstraintLayout);
         ModeHolder holder = new ModeHolder(modeNumber, modeDisplay, headerConstraintLayout);
         modeBar.setTag(holder);
         modeBar.setProgress(modeNumber);
@@ -170,20 +171,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 ModeHolder holder = (ModeHolder) seekBar.getTag();
                 holder.setDisplayMode(progress);
-                switch (progress){
-                    case 0:
-                        BackgroundMode.HUSH.update(holder.getModeDisplay(),holder.getHeaderView());
-                        break;
-                    case 1:
-                        BackgroundMode.WORK.update(holder.getModeDisplay(),holder.getHeaderView());
-                        break;
-                    case 2:
-                        BackgroundMode.SOCIAL.update(holder.getModeDisplay(),holder.getHeaderView());
-                        break;
-                    case 3:
-                        BackgroundMode.STUDY.update(holder.getModeDisplay(),holder.getHeaderView());
-                        break;
-                }
+                switchBackgroundMode(progress, holder.getModeDisplay(), holder.getHeaderView());
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -219,6 +207,23 @@ public class MainActivity extends AppCompatActivity {
 
         contentListView.setAdapter(adapter);
 
+    }
+
+    private void switchBackgroundMode(int progress, TextView textView, ConstraintLayout constraintLayout){
+        switch (progress){
+            case 0:
+                BackgroundMode.HUSH.update(textView, constraintLayout);
+                break;
+            case 1:
+                BackgroundMode.WORK.update(textView, constraintLayout);
+                break;
+            case 2:
+                BackgroundMode.SOCIAL.update(textView, constraintLayout);
+                break;
+            case 3:
+                BackgroundMode.STUDY.update(textView, constraintLayout);
+                break;
+        }
     }
 
     public void appSelected(View v, int pos, long id) {

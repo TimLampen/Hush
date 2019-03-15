@@ -29,7 +29,7 @@ public enum BackgroundMode {
         ConstraintLayout constraintLayout = mainActivity.findViewById(R.id.constraintLayout2);
         constraintLayout.setBackgroundColor(Color.parseColor(this.colorPrimary));
 
-        TextView textView = mainActivity.findViewById(R.id.textView2);
-        textView.setText(this.title);
+       // TextView textView = mainActivity.findViewById(R.id.textView2);
+        //textView.setText(this.title);
     }
 }

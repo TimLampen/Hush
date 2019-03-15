@@ -128,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             loadApp();
-            mainSeekBar = (SeekBar)this.findViewById(R.id.seekBar);
+            modeBar = this.findViewById(R.id.modeSeekBar);
 
-            mainSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            modeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     System.out.println(progress + " / progress");

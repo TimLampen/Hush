@@ -15,32 +15,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e0263d01-385b-4f0e-80ae-f9dafc24b79f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/BackgroundMode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/MainColorHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/Activities/AppDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/Activities/AppDetailsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/Activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/Activities/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/Activities/SetupActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/Activities/SetupActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/Database/DatabaseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/Database/DatabaseHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/FeatureAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/FeatureAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/FeatureListItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/FeatureListItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/FeatureViewHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/FeatureViewHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/MainAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/MainAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/MainListItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/MainListItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/MainViewHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ListViewHelperClasses/MainViewHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ManagedApps/ApplicationTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ManagedApps/ApplicationTemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ManagedApps/Facebook.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ManagedApps/Facebook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ManagedApps/Instagram.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundNotificationReciever/app/src/main/java/com/example/jonathanstroz/backgroundnotificationreciever/ManagedApps/Instagram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,10 +39,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="80" />
-    <option name="y" value="-28" />
+    <option name="x" value="81" />
+    <option name="y" value="-27" />
     <option name="width" value="1100" />
-    <option name="height" value="924" />
+    <option name="height" value="923" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -64,7 +50,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -88,14 +73,88 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="androidTest" type="e9137016:NonAndroidModuleNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="androidTest" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="androidTest" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+              <item name="myapplication" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="buildConfig" type="e9137016:NonAndroidModuleNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="buildConfig" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="buildConfig" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+              <item name="myapplication" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="main" type="e9137016:NonAndroidModuleNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="main" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="main" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+              <item name="myapplication" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="r" type="e9137016:NonAndroidModuleNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="r" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="test" type="e9137016:NonAndroidModuleNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="test" type="e9137016:NonAndroidModuleNode" />
+              <item name="tests" type="f7eae187:NonAndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="hush" type="1abcf292:AndroidViewProjectNode" />
+              <item name="test" type="e9137016:NonAndroidModuleNode" />
+              <item name="tests" type="f7eae187:NonAndroidSourceTypeNode" />
+              <item name="myapplication" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552327750823" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/BackgroundNotificationReciever" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
@@ -120,8 +179,10 @@
     <configuration name="Default" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="main" />
       <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="ARTIFACT_NAME" value="" />
       <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
@@ -131,54 +192,96 @@
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="New" />
-      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
       <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
       <Profilers>
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sampled (Java)" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet">
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="TestNG">
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
       <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
       <properties />
       <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+    <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file enabled="true" id="idea.log" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
   </component>
   <component name="SvnConfiguration">
@@ -191,57 +294,61 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1538341601371</updated>
-      <workItem from="1552327757066" duration="85000" />
     </task>
     <servers />
   </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85000" />
-  </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1471" height="878" extended-state="6" />
+    <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
     <layout>
-      <window_info id="UI Designer" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25230333" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Designer" order="2" />
-      <window_info id="Captures" order="3" weight="0.25" />
-      <window_info id="Image Layers" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Build Variants" order="6" side_tool="true" />
-      <window_info id="Favorites" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Logcat" order="8" weight="0.32909605" />
-      <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5040107" side_tool="true" visible="true" weight="0.3230563" />
-      <window_info anchor="bottom" id="Version Control" order="11" />
-      <window_info active="true" anchor="bottom" id="Messages" order="12" sideWeight="0.4959893" visible="true" weight="0.30769232" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5040107" side_tool="true" visible="true" weight="0.3240418" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24880762" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Messages" order="8" sideWeight="0.4959893" visible="true" weight="0.30769232" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Logcat" order="7" weight="0.32909605" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="right" id="Theme Preview" order="4" />
-      <window_info anchor="right" id="Device File Explorer" order="5" side_tool="true" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="right" id="Assistant" order="7" weight="0.3295302" />
+      <window_info id="Captures" order="2" weight="0.25" />
+      <window_info id="Build Variants" order="2" side_tool="true" />
+      <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" id="Assistant" order="4" weight="0.3295302" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
     </layout>
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/java/com/example/hush/myapplication/Hush.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/gen/com/example/hush/myapplication/R.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/AndroidManifest.xml" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/java/com/example/hush/myapplication/Hush.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/AndroidManifest.xml" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/gen/com/example/hush/myapplication/R.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/java/com/example/hush/myapplication/Hush.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/AndroidManifest.xml" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/gen/com/example/hush/myapplication/R.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/java/com/example/hush/myapplication/Hush.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/androidTest/java/com/example/hush/myapplication/ExampleInstrumentedTest.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/java/com/example/hush/myapplication/Hush.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/androidTest/java/com/example/hush/myapplication/ExampleInstrumentedTest.java" />
+    <entry file="file://$PROJECT_DIR$/Hush/app/src/main/java/com/example/hush/myapplication/Hush.java" />
     <entry file="file://$PROJECT_DIR$/Hush/app/src/androidTest/java/com/example/hush/myapplication/ExampleInstrumentedTest.java" />
     <entry file="file://$PROJECT_DIR$/Hush/app/src/main/AndroidManifest.xml" />
     <entry file="file://$PROJECT_DIR$/Hush/app/src/main/gen/com/example/hush/myapplication/R.java" />

@@ -18,6 +18,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener appSelector;
     private SeekBar modeBar;
     private TextView modeDisplay;
+    private ConstraintLayout headerConstraintLayout;
 
     //maybe this works
 
@@ -185,10 +188,11 @@ public class MainActivity extends AppCompatActivity {
 
         contentListView = (ListView) this.findViewById(R.id.contentListView);
         modeDisplay = (TextView) this.findViewById(R.id.modeDisplay);
-        Log.e("DISPLAY MODE", ""+modeDisplay);
+        headerConstraintLayout = (ConstraintLayout) this.findViewById(R.id.variableHeader);
         modeBar = (SeekBar) this.findViewById(R.id.modeSeekBar);
+
         int modeNumber = mDatabaseHelper.getMode();
-        ModeHolder holder = new ModeHolder(modeNumber, modeDisplay);
+        ModeHolder holder = new ModeHolder(modeNumber, modeDisplay, headerConstraintLayout);
         modeBar.setTag(holder);
         modeBar.setProgress(modeNumber);
 

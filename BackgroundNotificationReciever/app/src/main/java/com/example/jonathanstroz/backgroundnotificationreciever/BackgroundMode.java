@@ -14,6 +14,9 @@ public enum BackgroundMode {
 
 
     private final String title, colorPrimary, colorPrimaryDark, colorAccent, titleColor, header, buttonColor;
+    private
+
+
     BackgroundMode(String title, String colorPrimary, String colorPrimaryDark, String colorAccent, String titleColor, String header, String buttonColor){
         this.colorPrimary = colorPrimary;
         this.colorPrimaryDark = colorPrimaryDark;
@@ -26,7 +29,7 @@ public enum BackgroundMode {
 
 
     public void apply(MainActivity mainActivity){
-        ConstraintLayout constraintLayout = mainActivity.findViewById(R.id.constraintLayout2);
+        ConstraintLayout constraintLayout = mainActivity.findViewById(R.id.variableHeader);
         constraintLayout.setBackgroundColor(Color.parseColor(this.colorPrimary));
 
        // TextView textView = mainActivity.findViewById(R.id.textView2);

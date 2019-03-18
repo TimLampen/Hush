@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener appSelector;
     private SeekBar modeBar;
     private TextView modeDisplay;
+    private TextView modeWord;
     private ConstraintLayout headerConstraintLayout;
 
     //maybe this works
@@ -157,12 +158,13 @@ public class MainActivity extends AppCompatActivity {
 
         contentListView = (ListView) this.findViewById(R.id.contentListView);
         modeDisplay = (TextView) this.findViewById(R.id.modeDisplay);
+        modeWord = (TextView) this.findViewById(R.id.modeWord);
         headerConstraintLayout = (ConstraintLayout) this.findViewById(R.id.variableHeader);
         modeBar = (SeekBar) this.findViewById(R.id.modeSeekBar);
 
         int modeNumber = mDatabaseHelper.getMode();
-        switchBackgroundMode(modeNumber, modeDisplay, headerConstraintLayout);
-        ModeHolder holder = new ModeHolder(modeNumber, modeDisplay, headerConstraintLayout);
+        switchBackgroundMode(modeNumber, modeDisplay, headerConstraintLayout, modeWord, contentListView);
+        ModeHolder holder = new ModeHolder(modeNumber, modeDisplay, headerConstraintLayout, modeWord, contentListView);
         modeBar.setTag(holder);
         modeBar.setProgress(modeNumber);
 
@@ -171,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 ModeHolder holder = (ModeHolder) seekBar.getTag();
                 holder.setDisplayMode(progress);
-                switchBackgroundMode(progress, holder.getModeDisplay(), holder.getHeaderView());
+                switchBackgroundMode(progress, holder.getModeDisplay(), holder.getHeaderView(), holder.getModeWord(), holder.getContentListView());
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -209,19 +211,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void switchBackgroundMode(int progress, TextView textView, ConstraintLayout constraintLayout){
+    private void switchBackgroundMode(int progress, TextView textView, ConstraintLayout constraintLayout, TextView modeWord, ListView contentView){
         switch (progress){
             case 0:
-                BackgroundMode.HUSH.update(textView, constraintLayout);
+                BackgroundMode.HUSH.update(textView, constraintLayout, modeWord, contentView);
                 break;
             case 1:
-                BackgroundMode.WORK.update(textView, constraintLayout);
+                BackgroundMode.WORK.update(textView, constraintLayout, modeWord, contentView);
                 break;
             case 2:
-                BackgroundMode.SOCIAL.update(textView, constraintLayout);
+                BackgroundMode.SOCIAL.update(textView, constraintLayout, modeWord, contentView);
                 break;
             case 3:
-                BackgroundMode.STUDY.update(textView, constraintLayout);
+                BackgroundMode.STUDY.update(textView, constraintLayout, modeWord, contentView);
                 break;
         }
     }

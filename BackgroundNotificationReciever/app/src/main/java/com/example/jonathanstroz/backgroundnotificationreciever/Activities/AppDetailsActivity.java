@@ -1,6 +1,7 @@
 package com.example.jonathanstroz.backgroundnotificationreciever.Activities;
 
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -21,18 +22,21 @@ public class AppDetailsActivity extends AppCompatActivity {
     private String appName;
     private int appId;
     private SeekBar importanceBar;
+    private int appColour;
 
     private TextView nameView;
     private ImageView logoView;
 
     private ListView featureListView;
     private ArrayList<FeatureListItem> features;
+    private ConstraintLayout parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
         importanceBar = (SeekBar) this.findViewById(R.id.importanceBar);
+        parent = (ConstraintLayout) this.findViewById(R.id.parentConstraintLayout);
         init(this.getIntent());
     }
 
@@ -40,10 +44,12 @@ public class AppDetailsActivity extends AppCompatActivity {
         appName = i.getStringExtra(MainActivity.APPNAME);
         appLogo = i.getIntExtra(MainActivity.APPIMAGE, 0);
         appId = i.getIntExtra(MainActivity.APPID, 0);
+        appColour = i.getIntExtra(MainActivity.APPCOLOUR, 0);
 
         nameView = (TextView)findViewById(R.id.appName);
         logoView = (ImageView)findViewById(R.id.appLogo);
 
+        parent.setBackgroundColor(appColour);
         logoView.setImageResource(appLogo);
         nameView.setText(appName);
 

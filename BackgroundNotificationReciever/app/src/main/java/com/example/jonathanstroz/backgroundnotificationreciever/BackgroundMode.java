@@ -12,7 +12,7 @@ import java.util.List;
 
 public enum BackgroundMode {
     HUSH("Hush", "#1E1F34", "#ffffff", "#dddcde"),
-    STUDY("Study", "#BCC4D6", "#000000", "#e4e8ff"),
+    STUDY("Study", "#BCC4D6", "#000000", "#f7f8ff"),
     SOCIAL("Social", "#F5D698", "#000000", "#fff8e8"),
     WORK("Work", "#071C46", "#ffffff", "#d2daf5");
 

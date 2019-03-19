@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Handler;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String APPID = "com.example.jonathanstroz.backgroundnotificationreciever.appId";
     public static final String APPNAME = "com.example.jonathanstroz.backgroundnotificationreciever.appName";
     public static final String APPIMAGE = "com.example.jonathanstroz.backgroundnotificationreciever.appImage";
+    public static final String APPCOLOUR = "com.example.jonathanstroz.backgroundnotificationreciever.appColour";
 
 
 
@@ -192,7 +194,9 @@ public class MainActivity extends AppCompatActivity {
         contentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                appSelected(view,position,id);
+                int color = ((ColorDrawable)parent.getBackground()).getColor();
+                appSelected(view,position,id,color);
+                //Log.e("BACKGROUND COLOUR: ",((ColorDrawable)parent.getBackground()).getColor()+"");
             }
 
         });
@@ -228,12 +232,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void appSelected(View v, int pos, long id) {
+    public void appSelected(View v, int pos, long id, int colour) {
         Intent i = new Intent(this, AppDetailsActivity.class);
         MainViewHolder holder = (MainViewHolder) v.getTag();
         i.putExtra(APPID, holder.getAppId());
         i.putExtra(APPNAME, holder.getAppName());
         i.putExtra(APPIMAGE, holder.getAppImage());
+        i.putExtra(APPCOLOUR, colour);
         startActivity(i);
     }
 

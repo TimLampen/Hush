@@ -52,11 +52,11 @@ public class NotificationService extends NotificationListenerService {
         HushNotification notif = new HushNotification(sbn);
         notif.setPriority(notif);
         double test = notif.getPriority();
-        if(notif.getPriority() > 0.5 && notif.getPriority() < 4 ){
+        if(notif.getPriority() > 0.5 && notif.getPriority() < 1.0 ){
             notificationManager.cancel(sbn.getTag(), sbn.getId());
             cancelNotification(sbn.getKey());
             sendNotifcation(notif, sbn);
-        }else if(notif.getPriority() < 0.5 && notif.getPriority() > 0.0){
+        }else if(notif.getPriority() < 0.5 && notif.getPriority() >= 0.0){
             notificationManager.cancel(sbn.getTag(), sbn.getId());
             cancelNotification(sbn.getKey());
         }

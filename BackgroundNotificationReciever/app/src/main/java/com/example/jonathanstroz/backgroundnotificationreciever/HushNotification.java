@@ -164,7 +164,7 @@ public class HushNotification {
 
         //App importance set to id 1
 
-        priority = ((feature_chosen_importance + app_importance)/10) * 3;
+        priority = ((feature_chosen_importance + app_importance)/10.0) * 3.0;
 
         if(notification_code == InterceptedNotificationCode.OTHER_NOTIFICATIONS_CODE){
             priority = -1;

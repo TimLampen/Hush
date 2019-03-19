@@ -11,22 +11,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
-import android.os.Handler;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.solver.widgets.ConstraintAnchor;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -36,9 +30,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 
-import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundMode;
-import com.example.jonathanstroz.backgroundnotificationreciever.BackgroundService;
-import com.example.jonathanstroz.backgroundnotificationreciever.ModeHolder;
+import com.example.jonathanstroz.backgroundnotificationreciever.ModeHelperClasses.BackgroundMode;
+import com.example.jonathanstroz.backgroundnotificationreciever.ModeHelperClasses.ModeHolder;
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
@@ -54,7 +47,6 @@ import java.util.ArrayList;
 
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_1_ID;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_2_ID;
-import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_3_ID;
 import static com.example.jonathanstroz.backgroundnotificationreciever.Hush.CHANNEL_4_ID;
 
 public class MainActivity extends AppCompatActivity {
@@ -87,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener appSelector;
     private SeekBar modeBar;
     private TextView modeDisplay;
-    private TextView modeWord;
     private ConstraintLayout headerConstraintLayout;
 
     //maybe this works
@@ -160,13 +151,12 @@ public class MainActivity extends AppCompatActivity {
 
         contentListView = (ListView) this.findViewById(R.id.contentListView);
         modeDisplay = (TextView) this.findViewById(R.id.modeDisplay);
-        modeWord = (TextView) this.findViewById(R.id.modeWord);
         headerConstraintLayout = (ConstraintLayout) this.findViewById(R.id.variableHeader);
         modeBar = (SeekBar) this.findViewById(R.id.modeSeekBar);
 
         int modeNumber = mDatabaseHelper.getMode();
-        switchBackgroundMode(modeNumber, modeDisplay, headerConstraintLayout, modeWord, contentListView);
-        ModeHolder holder = new ModeHolder(modeNumber, modeDisplay, headerConstraintLayout, modeWord, contentListView);
+        switchBackgroundMode(modeNumber, modeDisplay, headerConstraintLayout, contentListView);
+        ModeHolder holder = new ModeHolder(modeNumber, modeDisplay, headerConstraintLayout, contentListView);
         modeBar.setTag(holder);
         modeBar.setProgress(modeNumber);
 
@@ -175,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 ModeHolder holder = (ModeHolder) seekBar.getTag();
                 holder.setDisplayMode(progress);
-                switchBackgroundMode(progress, holder.getModeDisplay(), holder.getHeaderView(), holder.getModeWord(), holder.getContentListView());
+                switchBackgroundMode(progress, holder.getModeDisplay(), holder.getHeaderView(), holder.getContentListView());
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -215,19 +205,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void switchBackgroundMode(int progress, TextView textView, ConstraintLayout constraintLayout, TextView modeWord, ListView contentView){
+    private void switchBackgroundMode(int progress, TextView textView, ConstraintLayout constraintLayout, ListView contentView){
         switch (progress){
             case 0:
-                BackgroundMode.HUSH.update(textView, constraintLayout, modeWord, contentView);
+                BackgroundMode.HUSH.update(textView, constraintLayout, contentView);
                 break;
             case 1:
-                BackgroundMode.WORK.update(textView, constraintLayout, modeWord, contentView);
+                BackgroundMode.WORK.update(textView, constraintLayout, contentView);
                 break;
             case 2:
-                BackgroundMode.SOCIAL.update(textView, constraintLayout, modeWord, contentView);
+                BackgroundMode.SOCIAL.update(textView, constraintLayout, contentView);
                 break;
             case 3:
-                BackgroundMode.STUDY.update(textView, constraintLayout, modeWord, contentView);
+                BackgroundMode.STUDY.update(textView, constraintLayout, contentView);
                 break;
         }
     }

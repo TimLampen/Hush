@@ -1,4 +1,4 @@
-package com.example.jonathanstroz.backgroundnotificationreciever;
+package com.example.jonathanstroz.backgroundnotificationreciever.ModeHelperClasses;
 
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
@@ -26,10 +26,9 @@ public enum BackgroundMode {
         this.contentColor = contentColor;
     }
 
-    public void update(TextView textView, ConstraintLayout constraintLayout, TextView modeText, ListView lv) {
+    public void update(TextView textView, ConstraintLayout constraintLayout, ListView lv) {
         applyTitle(textView);
         applyBackground(constraintLayout);
-        applyColorToText(modeText);
         applyContent(lv);
     }
 
@@ -40,10 +39,6 @@ public enum BackgroundMode {
 
     private void applyBackground(ConstraintLayout constraintLayout){
         constraintLayout.setBackgroundColor(Color.parseColor(this.colorPrimary));
-    }
-
-    private void applyColorToText(TextView mode){
-        mode.setTextColor(Color.parseColor(this.modeColor));
     }
 
     private void applyContent(ListView lv){

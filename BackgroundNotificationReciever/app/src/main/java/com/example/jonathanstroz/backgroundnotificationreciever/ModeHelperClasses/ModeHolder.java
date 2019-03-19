@@ -1,4 +1,4 @@
-package com.example.jonathanstroz.backgroundnotificationreciever;
+package com.example.jonathanstroz.backgroundnotificationreciever.ModeHelperClasses;
 
 import android.support.constraint.ConstraintLayout;
 import android.widget.ListView;
@@ -11,13 +11,11 @@ public class ModeHolder {
     private String modeName;
     private TextView modeDisplay;
     private ConstraintLayout headerView;
-    private TextView modeWord;
     private ListView contentListView;
 
-    public ModeHolder(int mode, TextView tv, ConstraintLayout cv, TextView word, ListView lv){
+    public ModeHolder(int mode, TextView tv, ConstraintLayout cv, ListView lv){
         modeDisplay = tv;
         this.headerView = cv;
-        this.modeWord = word;
         this.contentListView = lv;
         this.setDisplayMode(mode);
         this.setDatabaseMode(mode);
@@ -45,10 +43,6 @@ public class ModeHolder {
 
     public void setDatabaseMode(int modeNumber){
         this.databaseModeNum = modeNumber;
-    }
-
-    public TextView getModeWord(){
-        return modeWord;
     }
 
     public ListView getContentListView(){
